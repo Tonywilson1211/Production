@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photography Diary Manager (PoC v0.9)</title>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Load Heroicons for icons -->
+    <script type="module" src="https://unpkg.com/heroicons@2.1.1/24/outline/index.js"></script>
+    
+    <style>
+        /* Use Inter as the default font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styles for active tab */
+        .tab.active {
+            border-top: 4px solid #93be1e; /* Custom Green */
+            background-color: #f9fafb; /* gray-50 */
+            color: #93be1e; /* Custom Green */
+        }
+        .tab {
+            border-top: 4px solid transparent;
+        }
+        /* Hide scrollbars for number inputs */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        
+        /* Style for disabled inputs */
+        input:disabled {
+            background-color: #f3f4f6; /* gray-100 */
+            cursor: not-allowed;
+            color: #9ca3af; /* gray-400 */
+        }
+
+        /* Define custom green colors for Tailwind's JIT mode */
+        .bg-custom-green { background-color: #93be1e; }
+        .hover\:bg-custom-green-dark:hover { background-color: #7aa518; } /* Slightly darker for hover */
+        .focus\:ring-custom-green:focus { --tw-ring-color: #93be1e; }
+        .text-custom-green { color: #93be1e; }
+        .border-custom-green { border-color: #93be1e; }
+        .text-custom-green { color: #93be1e; }
+        .focus\:border-custom-green:focus { border-color: #93be1e; }
+        .focus\:ring-custom-green:focus { box-shadow: 0 0 0 2px #93be1e; }
+        .text-custom-green { color: #93be1e; }
+        .focus\:ring-custom-green:focus { --tw-ring-color: #93be1e; }
+        
+        /* NEW: Custom color for the finish window */
+        .text-custom-finish { color: #c4d787; }
+
+
+    </style>
+</head>
+<body class="flex flex-col h-screen bg-gray-100">
+
+    <!-- Header with Logo -->
+    <header class="bg-white shadow-md p-4 flex items-center justify-between">
+        <div class="flex items-center">
+            <!-- Logo Placeholder -->
+            <div class="h-8 w-8 bg-custom-green rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">
+                <img src="https://placehold.co/32x32/93be1e/ffffff/png?text=DBA" alt="Company Logo" class="h-8 w-8 rounded-full">
+            </div>
+            <h1 class="text-xl font-semibold text-gray-800">Diary Booking Assistant</h1>
+        </div>
+        <!-- You can add other header elements here if needed -->
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow p-4 md:p-8 overflow-auto">
+        
+        <!-- Page 1: Staff Hub (New Mockup Page) -->
+        <div id="page-staff-hub" class="sheet-content bg-white p-6 rounded-lg shadow-md">
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">Team & Staff Hub</h1>
+            
+            <!-- Team Selection (Mockup) -->
+            <div class="mb-6">
+                <label for="team-select" class="block text-sm font-medium text-gray-700">Select Team (Area)</label>
+                <select id="team-select" class="mt-1 block w-full md:w-1/3 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green">
+                    <option selected>Area 1 - London</option>
+                    <option disabled>Area 2 - South East (v1.0 Feature)</option>
+                    <option disabled>Area 3 - Midlands (v1.0 Feature)</option>
+                </select>
+            </div>
+
+            <!-- Staff List (Mockup) -->
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-gray-700">Staff List: Area 1</h2>
+                <button class="px-4 py-2 bg-custom-green text-white text-sm font-medium rounded-md shadow-sm hover:bg-custom-green-dark" disabled>Add New Staff (Full v1.0 Feature)</button>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assigned Category</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">James Wilson</td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <select class="border-gray-300 rounded-md" disabled>
+                                    <option>Cat 1</option>
+                                    <option selected>Cat 2</option>
+                                    <option>Cat 3</option>
+                                </select>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <button class="text-red-600 hover:text-red-900" disabled>Remove (Full v1.0 Feature)</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Paul Udgaranya</td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <select class="border-gray-300 rounded-md" disabled>
+                                    <option>Cat 1</option>
+                                    <option>Cat 2</option>
+                                    <option selected>Cat 3</option>
+                                </select>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <button class="text-red-600 hover:text-red-900" disabled>Remove (Full v1.0 Feature)</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="mt-4 text-sm text-gray-500 italic">This is a mock-up of the v1.0 "Staff Hub." In the full version, managers can add/remove staff and assign custom categories.</p>
+        </div>
+
+
+        <!-- Page 2: Key -->
+        <div id="page-key" class="sheet-content hidden bg-white p-6 rounded-lg shadow-md">
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">Timing Assumptions Key</h1>
+            <p class="text-sm text-gray-600 mb-6">This shows the rules for the "Standard" categories. The v1.0 app will allow managers to create custom categories.</p>
+            <div id="key-categories-container" class="space-y-10">
+                <!-- Category details will be injected by JS -->
+            </div>
+        </div>
+
+        <!-- Page 3: Photographer Calculator -->
+        <div id="page-diary" class="sheet-content hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Input Form -->
+                <div class="lg:col-span-1 bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6">New Appointment</h2>
+                    
+                    <!-- NEW: Photographer Selection Dropdown -->
+                    <div class="mb-4">
+                        <label for="photographer-select" class="block text-sm font-medium text-gray-700">1. Select Photographer</label>
+                        <select id="photographer-select" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green">
+                            <option value="" disabled selected>Select a photographer...</option>
+                            <!-- Options will be injected by JS -->
+                        </select>
+                        <p id="photographer-category-display" class="mt-1 text-sm text-custom-green font-medium"></p>
+                    </div>
+
+                    <form id="appointment-form" class="space-y-4">
+                        <div class="opacity-50" id="form-fields-wrapper">
+                            <!-- Optional Reference Fields -->
+                            <div class="p-4 bg-gray-50 rounded-md border mb-4">
+                                <p class="text-sm font-medium text-gray-700 mb-2">Optional (v1.0 Reference)</p>
+                                <div class="space-y-2">
+                                    <input type="text" id="ref-order-id" class="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green" placeholder="Order Reference">
+                                    <input type="text" id="ref-address" class="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green" placeholder="First Line of Address">
+                                    <input type="text" id="ref-postcode" class="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green" placeholder="Postcode">
+                                </div>
+                            </div>
+                            
+                            <!-- Main Calculator Fields -->
+                            <div>
+                                <label for="first-job-arrival-time" class="block text-sm font-medium text-gray-700">First Job Arrival (8am-5pm)</label>
+                                <input type="time" id="first-job-arrival-time" value="09:00" min="08:00" max="17:00" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green">
+                            </div>
+                            
+                            <div>
+                                <label for="travel-time" class="block text-sm font-medium text-gray-700">Travel Time (mins)</label>
+                                <input type="number" id="travel-time" min="0" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green" placeholder="e.g., 30">
+                            </div>
+
+                            <div>
+                                <label for="bedrooms" class="block text-sm font-medium text-gray-700">Property Size (Bedrooms)</label>
+                                <input type="number" id="bedrooms" min="1" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green" placeholder="e.g., 3">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Products</label>
+                                <div class="mt-2 space-y-2 h-32 overflow-y-auto border p-2 rounded-md" id="products-list">
+                                    <!-- Checkboxes will be injected by JS -->
+                                </div>
+                            </div>
+
+                            <!-- v1.0 Features (Mocked) -->
+                            <div class="space-y-2 pt-2">
+                                <label for="additional-time" class="block text-sm font-medium text-gray-700">Additional Time (Full v1.0 Feature)</label>
+                                <input type="number" id="additional-time" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" placeholder="e.g., 15 mins (disabled)" disabled>
+                                
+                                <div class="flex items-center">
+                                    <input id="ad-hoc-job" name="ad-hoc-job" type="checkbox" class="h-4 w-4 text-custom-green border-gray-300 rounded focus:ring-custom-green" disabled>
+                                    <label for="ad-hoc-job" class="ml-2 block text-sm text-gray-700">Ad-Hoc Job (Full v1.0 Feature)</label>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-between pt-4">
+                                <button type="submit" class="w-2/3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-custom-green hover:bg-custom-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green">
+                                    Add Appointment
+                                </button>
+                                <button type="button" id="reset-schedule" class="w-1/3 ml-3 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green">
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Schedule Table -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
+                    <h2 id="schedule-title" class="text-xl font-bold text-gray-800 mb-6">Calculated Schedule</h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Job #</th>
+                                    <!-- Optional v1.0 Reference Columns -->
+                                    <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order Ref</th>
+                                    <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
+                                    <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Postcode</th>
+                                    <!-- Core Calculator Columns -->
+                                    <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Travel</th>
+                                    <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Buffer</th>
+                                    <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Arrival (Window)</th>
+                                    <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">WMS</th>
+                                    <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Beds</th>
+                                    <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Products</th>
+                                    <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration (h:mm)</th>
+                                    <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Finish (Window)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="schedule-body">
+                                <!-- Schedule rows will be injected by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Tab Navigation -->
+    <!-- FIX: Removed overflow-x-auto to prevent tab bar from shrinking -->
+    <nav id="tab-navigation" class="flex border-t border-gray-300 bg-white shadow-inner">
+        <!-- Tabs will be injected by JS -->
+    </nav>
+
+    <script>
+        // --- DATA & ASSUMPTIONS ---
+
+        // 30-minute arrival window buffer
+        const ARRIVAL_WINDOW_BUFFER = 30;
+
+        // Categories. Cat 1 is new (slower), Cat 2 is standard, Cat 3 is fast.
+        const timingCategories = {
+            cat1: {
+                name: "Cat 1 (New Staff)",
+                travelBuffer: 15,
+                coreProducts: [
+                    { maxBeds: 3, time: 40 },
+                    { maxBeds: 5, time: 55 },
+                    { maxBeds: Infinity, time: 70 }
+                ],
+                addOnProducts: [
+                    { maxBeds: 5, time: 20 },
+                    { maxBeds: Infinity, time: 35 }
+                ]
+            },
+            cat2: { // This is the old "Standard"
+                name: "Cat 2 (Mid-Range)",
+                travelBuffer: 10,
+                coreProducts: [
+                    { maxBeds: 3, time: 30 },
+                    { maxBeds: 5, time: 45 },
+                    { maxBeds: Infinity, time: 60 }
+                ],
+                addOnProducts: [
+                    { maxBeds: 5, time: 15 },
+                    { maxBeds: Infinity, time: 30 }
+                ]
+            },
+            cat3: {
+                name: "Cat 3 (Experienced)",
+                travelBuffer: 10,
+                coreProducts: [
+                    { maxBeds: 3, time: 25 },
+                    { maxBeds: 5, time: 40 },
+                    { maxBeds: Infinity, time: 55 }
+                ],
+                addOnProducts: [
+                    { maxBeds: 5, time: 10 },
+                    { maxBeds: Infinity, time: 25 }
+                ]
+            }
+        };
+
+        // Hard-coded photographer list
+        let photographerProfiles = {
+            p1: { name: "James Wilson", category: 'cat2' },
+            p2: { name: "Paul Udgaranya", category: 'cat3' },
+        };
+        
+        // List of all products offered
+        const productList = [
+            { id: 'photos', name: 'Photos', type: 'core' },
+            { id: 'floorplan', name: 'Floorplan', type: 'core' },
+            { id: 'epc', name: 'EPC', type: 'core' },
+            { id: 'drone', name: 'Drone', type: 'add-on' },
+            { id: 'elevated', name: 'Elevated', type: 'add-on' },
+            { id: 'video', name: 'Video', type: 'add-on' },
+            // Added new products as per v1.0 spec
+            { id: 'product6', name: 'Product 6', type: 'add-on' },
+            { id: 'product7', name: 'Product 7', type: 'add-on' },
+            { id: 'product8', name: 'Product 8', type: 'add-on' },
+            { id: 'product9', name: 'Product 9', type: 'core' },
+            { id: 'product10', name: 'Product 10', type: 'core' },
+        ];
+
+        // --- GLOBAL STATE ---
+        
+        let appointments = {}; 
+        let currentPhotographerId = null;
+
+        // --- CORE FUNCTIONS ---
+
+        /**
+         * Initialize the application
+         */
+        function init() {
+            // Initialize appointment array for each photographer
+            for (const photoId in photographerProfiles) {
+                if (photographerProfiles.hasOwnProperty(photoId)) {
+                    appointments[photoId] = [];
+                }
+            }
+
+            populateMainTabs(); // <-- Updated function
+            populateKeySheet();
+            populateProductsList();
+            populatePhotographerDropdown(); // <-- New function
+
+            document.getElementById('appointment-form').addEventListener('submit', handleAddAppointment);
+            document.getElementById('reset-schedule').addEventListener('click', resetSchedule);
+            document.getElementById('photographer-select').addEventListener('change', selectPhotographer);
+
+            // Show the 'Staff Hub' sheet by default
+            switchSheet('page-staff-hub');
+            disableCalculatorForm(true); // Disable form by default
+        }
+        
+        /**
+         * Create tabs for the 3 main pages
+         */
+        function populateMainTabs() {
+            const nav = document.getElementById('tab-navigation');
+            nav.innerHTML = ''; // Clear existing tabs
+            
+            const pages = [
+                { id: 'page-staff-hub', name: 'Staff Hub', icon: 'users' },
+                { id: 'page-key', name: 'Key', icon: 'key' },
+                { id: 'page-diary', name: 'Diary Booking', icon: 'calendar-days' }
+            ];
+
+            pages.forEach(page => {
+                const tab = document.createElement('button');
+                tab.dataset.sheet = page.id;
+                // ** FIX: Removed 'min-w-max' to prevent shrinking **
+                tab.className = 'tab flex-1 p-4 text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-custom-green focus:outline-none flex items-center justify-center';
+                
+                // Hacky way to get heroicons
+                let iconSvg = '';
+                if (page.icon === 'users') {
+                    iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372m.375-3.72a9.375 9.375 0 0 0-3.75 0m5.625 3.72a9.375 9.375 0 0 1-3.75 0M3.375 19.128a9.375 9.375 0 0 1 3.75 0m5.625 3.72a9.375 9.375 0 0 0-3.75 0m3.75-3.72a9.375 9.375 0 0 0 3.75 0m-9.375 3.72a9.375 9.375 0 0 1-3.75 0M14.625 12a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm-3.375 0a.375.375 0 0 0-.375.375v.375c0 .207.168.375.375.375h.375a.375.375 0 0 0 .375-.375v-.375a.375.375 0 0 0-.375-.375h-.375Z" /></svg>';
+                } else if (page.icon === 'key') {
+                    iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" /></svg>';
+                } else if (page.icon === 'calendar-days') {
+                    iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>';
+                }
+                
+                tab.innerHTML = `${iconSvg} ${page.name}`;
+                tab.addEventListener('click', () => switchSheet(page.id));
+                nav.appendChild(tab);
+            });
+        }
+
+        /**
+         * Switch between the 'sheets'
+         */
+        function switchSheet(sheetId) {
+            // Hide all sheets
+            document.querySelectorAll('.sheet-content').forEach(sheet => {
+                sheet.classList.add('hidden');
+            });
+            // Show the selected one
+            document.getElementById(sheetId).classList.remove('hidden');
+
+            // Update tab active state
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.sheet === sheetId) {
+                    tab.classList.add('active');
+                }
+            });
+        }
+
+        /**
+         * Populate the photographer dropdown on the Diary page
+         */
+        function populatePhotographerDropdown() {
+            const select = document.getElementById('photographer-select');
+            for (const photoId in photographerProfiles) {
+                const profile = photographerProfiles[photoId];
+                const option = document.createElement('option');
+                option.value = photoId;
+                option.textContent = profile.name;
+                select.appendChild(option);
+            }
+        }
+        
+        /**
+         * Populate the 'Key' sheet with tables for *all* categories
+         */
+        function populateKeySheet() {
+            const container = document.getElementById('key-categories-container');
+            container.innerHTML = ''; // Clear existing
+            
+            for (const catId in timingCategories) {
+                if (timingCategories.hasOwnProperty(catId)) {
+                    const category = timingCategories[catId];
+                    const categoryBlock = document.createElement('div');
+                    categoryBlock.className = 'border border-gray-200 rounded-lg p-4';
+                    
+                    let html = `<h2 class="text-xl font-bold text-custom-green mb-4">${category.name}</h2>`;
+                    
+                    // General Table
+                    html += `
+                        <h3 class="text-lg font-semibold text-gray-700 mb-3 border-b pb-2">General</h3>
+                        <div class="overflow-x-auto mb-6">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time (minutes)</th></tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Travel Time Buffer</td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${category.travelBuffer}</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                    
+                    // Core Products Table
+                    html += `
+                        <h3 class="text-lg font-semibold text-gray-700 mb-3 border-b pb-2">Core Products</h3>
+                        <div class="overflow-x-auto mb-6">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Property Size (Bedrooms)</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time *per Product* (minutes)</th></tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                    `;
+                    let coreRuleCount = 0;
+                    category.coreProducts.forEach(rule => {
+                         html += `
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${rule.maxBeds === Infinity ? '6+ Beds' : (coreRuleCount === 0 ? `Up to ${rule.maxBeds} Beds` : `${category.coreProducts[coreRuleCount-1].maxBeds + 1} - ${rule.maxBeds} Beds`)}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${rule.time}</td>
+                            </tr>
+                        `;
+                        coreRuleCount++;
+                    });
+                    html += `</tbody></table></div>`;
+                    
+                    // Add-on Products Table
+                    html += `
+                        <h3 class="text-lg font-semibold text-gray-700 mb-3 border-b pb-2">Add-on Products</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Property Size (Bedrooms)</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time *per Product* (minutes)</th></tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                    `;
+                    let addOnRuleCount = 0;
+                    category.addOnProducts.forEach(rule => {
+                        html += `
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${rule.maxBeds === Infinity ? '6+ Beds' : (addOnRuleCount === 0 ? `Up to ${rule.maxBeds} Beds` : `${category.addOnProducts[addOnRuleCount-1].maxBeds + 1} - ${rule.maxBeds} Beds`)}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${rule.time}</td>
+                            </tr>
+                        `;
+                        addOnRuleCount++;
+                    });
+                    html += `</tbody></table></div>`;
+                    
+                    categoryBlock.innerHTML = html;
+                    container.appendChild(categoryBlock);
+                }
+            }
+        }
+        
+        /**
+         * Populate the checkboxes for products on the form
+         */
+        function populateProductsList() {
+            const listDiv = document.getElementById('products-list');
+            listDiv.innerHTML = '';
+            productList.forEach(product => {
+                const item = `
+                    <div class="flex items-center">
+                        <input id="${product.id}" name="product" type="checkbox" value="${product.id}" data-type="${product.type}" class="h-4 w-4 text-custom-green border-gray-300 rounded focus:ring-custom-green">
+                        <label for="${product.id}" class="ml-3 block text-sm text-gray-700">${product.name}</label>
+                    </div>
+                `;
+                listDiv.innerHTML += item;
+            });
+        }
+
+        /**
+         * Handle selecting a photographer from the dropdown
+         */
+        function selectPhotographer(e) {
+            currentPhotographerId = e.target.value;
+            if (currentPhotographerId) {
+                // Enable the form
+                disableCalculatorForm(false);
+                const profile = photographerProfiles[currentPhotographerId];
+                const category = timingCategories[profile.category];
+                document.getElementById('schedule-title').textContent = `Calculated Schedule: ${profile.name}`;
+                document.getElementById('photographer-category-display').textContent = `Using Category: ${category.name}`;
+                renderSchedule();
+                resetFormFields();
+            } else {
+                // Disable the form
+                disableCalculatorForm(true);
+                currentPhotographerId = null;
+                document.getElementById('schedule-title').textContent = `Calculated Schedule`;
+                document.getElementById('photographer-category-display').textContent = ``;
+                renderSchedule();
+            }
+        }
+
+        /**
+         * Enable/disable the calculator form
+         */
+        function disableCalculatorForm(disabled) {
+            const wrapper = document.getElementById('form-fields-wrapper');
+            if (disabled) {
+                wrapper.classList.add('opacity-50', 'pointer-events-none');
+            } else {
+                wrapper.classList.remove('opacity-50', 'pointer-events-none');
+            }
+        }
+
+
+        /**
+         * Handle the form submission to add a new appointment
+         */
+        function handleAddAppointment(e) {
+            e.preventDefault();
+            
+            if (!currentPhotographerId) {
+                showModal("Please select a photographer first.");
+                return;
+            }
+            
+            // --- TIME LOGIC: Use "time-as-minutes" math, not Date() objects ---
+            // This is the "Path B" logic we agreed on.
+            
+            // 1. Get all form values
+            const bedrooms = parseInt(document.getElementById('bedrooms').value) || 0;
+            const travelTime = parseInt(document.getElementById('travel-time').value) || 0;
+            const selectedProducts = [];
+            document.querySelectorAll('input[name="product"]:checked').forEach(checkbox => {
+                selectedProducts.push({
+                    id: checkbox.value,
+                    name: checkbox.nextElementSibling.textContent,
+                    type: checkbox.dataset.type
+                });
+            });
+            // Get Optional Reference Fields
+            const orderRef = document.getElementById('ref-order-id').value;
+            const address = document.getElementById('ref-address').value;
+            const postcode = document.getElementById('ref-postcode').value;
+
+
+            // 2. Validation
+            if (selectedProducts.length === 0) {
+                showModal("Please select at least one product.");
+                return;
+            }
+            if (bedrooms <= 0) {
+                showModal("Please enter a valid number of bedrooms.");
+                return;
+            }
+            
+            // 3. Get ruleset and calculate duration
+            const currentSchedule = appointments[currentPhotographerId];
+            const categoryId = photographerProfiles[currentPhotographerId].category;
+            const ruleset = timingCategories[categoryId];
+            const duration = calculateDuration(bedrooms, selectedProducts, ruleset);
+
+            // 4. --- Core Calculation Engine ---
+            
+            let arrivalTimeMins, arrivalWindowEndMins, finishTimeMins, finishWindowEndMins, wmsTimeMins, buffer;
+            let latestFinishTimeForNextJob = 0; // in minutes-from-midnight
+            
+            if (currentSchedule.length === 0) {
+                // This is the FIRST job of the day
+                const arrivalTimeStr = document.getElementById('first-job-arrival-time').value;
+                arrivalTimeMins = timeStringToMinutes(arrivalTimeStr); // e.g., "09:00" -> 540
+                
+                buffer = 0;
+                
+                // Set 30-min window
+                arrivalWindowEndMins = arrivalTimeMins + ARRIVAL_WINDOW_BUFFER; // 540 + 30 = 570
+                finishTimeMins = arrivalTimeMins + duration;
+                finishWindowEndMins = arrivalWindowEndMins + duration;
+
+                // --- WMS LOGIC (First Job) ---
+                wmsTimeMins = arrivalTimeMins; // WMS time is the start, e.g., 540
+                
+                latestFinishTimeForNextJob = finishWindowEndMins;
+
+            } else {
+                // This is a SUBSEQUENT job
+                latestFinishTimeForNextJob = currentSchedule[currentSchedule.length - 1].latestFinishMins;
+                
+                buffer = ruleset.travelBuffer;
+                
+                // 1. Calculate the "true" arrival time (e.g., 11:40 -> 700)
+                const trueArrivalMins = latestFinishTimeForNextJob + travelTime + buffer;
+                
+                // 2. NEW STEP: Round the "true" arrival time to the nearest 15 mins (e.g., 700 -> 705)
+                arrivalTimeMins = roundToNearest(trueArrivalMins, 15);
+                
+                // 3. Calculate all other times based on this *new rounded* arrivalTime
+                arrivalWindowEndMins = arrivalTimeMins + ARRIVAL_WINDOW_BUFFER; // (e.g., 705 + 30 = 735)
+                finishTimeMins = arrivalTimeMins + duration;
+                finishWindowEndMins = arrivalWindowEndMins + duration;
+
+                // --- WMS LOGIC (Subsequent Jobs) ---
+                // 1. Find the midpoint of the *new rounded* arrival window (e.g., 705 + 15 = 720)
+                const midArrivalMins = arrivalTimeMins + (ARRIVAL_WINDOW_BUFFER / 2);
+                // 2. Round that midpoint to the nearest 30 mins (e.g., 720)
+                wmsTimeMins = roundToNearest(midArrivalMins, 30);
+
+                latestFinishTimeForNextJob = finishWindowEndMins;
+            }
+
+            // 5. Create appointment object
+            const newAppointment = {
+                // Store reference fields
+                orderRef: orderRef,
+                address: address,
+                postcode: postcode,
+                // Store calculation values
+                travel: travelTime,
+                buffer: buffer,
+                arrivalStr: formatMinutes(arrivalTimeMins),
+                arrivalWindowEndStr: formatMinutes(arrivalWindowEndMins),
+                bedrooms: bedrooms,
+                productsStr: selectedProducts.map(p => p.name).join(', '),
+                duration: duration,
+                finishTimeStr: formatMinutes(finishTimeMins),
+                finishWindowEndStr: formatMinutes(finishWindowEndMins),
+                wmsTimeStr: formatMinutes(wmsTimeMins),
+                // Store the raw minutes for the *next* calculation
+                latestFinishMins: latestFinishTimeForNextJob
+            };
+
+            currentSchedule.push(newAppointment);
+            renderSchedule();
+            resetFormFields();
+        }
+        
+        /**
+         * Resets the entire schedule for the *current* photographer
+         */
+        function resetSchedule() {
+            if (!currentPhotographerId) return;
+            
+            appointments[currentPhotographerId] = [];
+            renderSchedule();
+            resetFormFields(true); // Force reset day start time
+        }
+        
+        /**
+         * Resets form fields, manages input enable/disable based on schedule
+         */
+        function resetFormFields(forceResetDayStart = false) {
+            const travelInput = document.getElementById('travel-time');
+            const arrivalInput = document.getElementById('first-job-arrival-time');
+            
+            document.getElementById('bedrooms').value = '';
+            document.querySelectorAll('input[name="product"]:checked').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            // Clear reference fields
+            document.getElementById('ref-order-id').value = '';
+            document.getElementById('ref-address').value = '';
+            document.getElementById('ref-postcode').value = '';
+
+
+            const currentSchedule = currentPhotographerId ? appointments[currentPhotographerId] : [];
+
+            if (forceResetDayStart || !currentSchedule || currentSchedule.length === 0) {
+                // This is for the FIRST job
+                arrivalInput.disabled = false;
+                arrivalInput.value = "09:00";
+                
+                travelInput.disabled = true; // Disable travel
+                travelInput.value = ''; // Clear and show placeholder
+                travelInput.placeholder = 'N/A for first job';
+                
+            } else {
+                // This is for SUBSEQUENT jobs
+                arrivalInput.disabled = true; // Lock the arrival time
+                
+                travelInput.disabled = false; // Enable travel
+                travelInput.value = '';
+                travelInput.placeholder = 'e.g., 30'; // Show normal placeholder
+            }
+        }
+
+        /**
+         * Calculate the total on-site duration based on bedrooms and products
+         */
+        function calculateDuration(bedrooms, products, ruleset) {
+            const coreRule = ruleset.coreProducts.find(rule => bedrooms <= rule.maxBeds);
+            const coreProductTime = coreRule ? coreRule.time : 0;
+            
+            const addOnRule = ruleset.addOnProducts.find(rule => bedrooms <= rule.maxBeds);
+            const addOnProductTime = addOnRule ? addOnRule.time : 0;
+
+            let coreProductCount = 0;
+            let addOnProductCount = 0;
+            
+            products.forEach(product => {
+                if (product.type === 'core') {
+                    coreProductCount++;
+                } else if (product.type === 'add-on') {
+                    addOnProductCount++;
+                }
+            });
+
+            const totalDuration = (coreProductCount * coreProductTime) + (addOnProductCount * addOnProductTime);
+            return totalDuration;
+        }
+
+        /**
+         * Re-draw the schedule table for the *current* photographer
+         */
+        function renderSchedule() {
+            const tbody = document.getElementById('schedule-body');
+            tbody.innerHTML = ''; // Clear table
+            
+            if (!currentPhotographerId) return;
+            
+            const currentSchedule = appointments[currentPhotographerId];
+            
+            currentSchedule.forEach((appt, index) => {
+                // Create display strings for windows
+                const arrivalDisplay = `${appt.arrivalStr} / ${appt.arrivalWindowEndStr}`;
+                const finishDisplay = `${appt.finishTimeStr} / ${appt.finishWindowEndStr}`;
+
+                const row = `
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-3 py-4 whitespace-nowrap text-sm font-bold text-gray-700">${index + 1}</td>
+                        <!-- New Reference Columns -->
+                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500 truncate" style="max-width: 100px;" title="${appt.orderRef}">${appt.orderRef}</td>
+                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500 truncate" style="max-width: 150px;" title="${appt.address}">${appt.address}</td>
+                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500 truncate" style="max-width: 80px;" title="${appt.postcode}">${appt.postcode}</td>
+                        <!-- Core Columns -->
+                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">${appt.travel}</td>
+                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">${appt.buffer}</td>
+                        <td class="px-3 py-4 whitespace-nowrap text-sm font-bold text-custom-green">${arrivalDisplay}</td>
+                        <td class="px-3 py-4 whitespace-nowrap text-sm font-bold text-red-600">${appt.wmsTimeStr}</td>
+                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">${appt.bedrooms}</td>
+                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500 truncate" style="max-width: 150px;" title="${appt.productsStr}">${appt.productsStr}</td>
+                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">${formatDuration(appt.duration)}</td>
+                        <!-- FIX: Changed text-green-600 to text-custom-finish -->
+                        <td class="px-3 py-4 whitespace-nowrap text-sm font-bold text-custom-finish">${finishDisplay}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        // --- UTILITY FUNCTIONS (Time-as-Minutes) ---
+
+        /**
+         * Converts "HH:MM" string to minutes-from-midnight
+         * e.g., "09:00" -> 540
+         */
+        function timeStringToMinutes(timeStr) {
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            return (hours * 60) + minutes;
+        }
+
+        /**
+         * Converts minutes-from-midnight to "HH:MM" string
+         * e.g., 540 -> "09:00"
+         */
+        function formatMinutes(totalMinutes) {
+            const hours = Math.floor(totalMinutes / 60);
+            const minutes = totalMinutes % 60;
+            return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+        }
+
+        /**
+         * Helper to format duration in minutes to h:mm string
+         * e.g., 75 -> "1:15"
+         */
+        function formatDuration(totalMinutes) {
+            const hours = Math.floor(totalMinutes / 60);
+            const minutes = totalMinutes % 60;
+            return `${hours}:${String(minutes).padStart(2, '0')}`;
+        }
+
+        /**
+         * Rounds a number of minutes to the nearest interval
+         * e.g., roundToNearest(700, 15) -> 705
+         * e.g., roundToNearest(722, 30) -> 720
+         */
+        function roundToNearest(minutes, interval) {
+            return Math.round(minutes / interval) * interval;
+        }
+        
+        /**
+         * Shows a custom modal dialog instead of alert()
+         */
+        function showModal(message) {
+            let modal = document.getElementById('alert-modal');
+            if (modal) {
+                modal.remove(); 
+            }
+
+            modal = document.createElement('div');
+            modal.id = 'alert-modal';
+            modal.className = 'fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50';
+            
+            const modalContent = document.createElement('div');
+            modalContent.className = 'relative mx-auto p-6 border w-96 shadow-lg rounded-md bg-white';
+            
+            const text = document.createElement('p');
+            text.className = 'text-gray-700 text-sm';
+            text.textContent = message;
+            
+            const buttonContainer = document.createElement('div');
+            buttonContainer.className = 'text-right mt-4';
+            
+            const closeButton = document.createElement('button');
+            closeButton.className = 'px-4 py-2 bg-custom-green text-white text-sm font-medium rounded-md shadow-sm hover:bg-custom-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green';
+            closeButton.textContent = 'OK';
+            closeButton.onclick = function() {
+                modal.remove();
+            };
+            
+            buttonContainer.appendChild(closeButton);
+            modalContent.appendChild(text);
+            modalContent.appendChild(buttonContainer);
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+            
+            closeButton.focus();
+        }
+
+        // --- START THE APP ---
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
+
