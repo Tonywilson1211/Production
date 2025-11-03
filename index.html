@@ -318,12 +318,15 @@
                     { id: 'epc', maxBeds: 3, time: 40 }, // Assuming same as photos
                     { id: 'epc', maxBeds: 5, time: 55 },
                     { id: 'epc', maxBeds: Infinity, time: 70 },
-                    { id: 'product9', maxBeds: 3, time: 40 },
-                    { id: 'product9', maxBeds: 5, time: 55 },
-                    { id: 'product9', maxBeds: Infinity, time: 70 },
-                    { id: 'product10', maxBeds: 3, time: 40 },
-                    { id: 'product10', maxBeds: 5, time: 55 },
-                    { id: 'product10', maxBeds: Infinity, time: 70 },
+                    { id: '3d_showcase', maxBeds: 2, time: 30 },
+                    { id: '3d_showcase', maxBeds: 4, time: 45 },
+                    { id: '3d_showcase', maxBeds: 6, time: 60 },
+                    { id: '3d_showcase', maxBeds: 7, time: 75 },
+                    { id: '3d_showcase', maxBeds: 8, time: 90 },
+                    { id: '3d_showcase', maxBeds: 9, time: 105 },
+                    { id: '3d_showcase', maxBeds: 10, time: 120 },
+                    { id: '3d_showcase', maxBeds: 11, time: 135 },
+                    { id: '3d_showcase', maxBeds: 12, time: 150 },
                 ],
                 addOnProducts: [
                     { maxBeds: 5, time: 20 },
@@ -346,12 +349,15 @@
                     { id: 'epc', maxBeds: 3, time: 30 }, // Assuming same as photos
                     { id: 'epc', maxBeds: 5, time: 45 },
                     { id: 'epc', maxBeds: Infinity, time: 60 },
-                    { id: 'product9', maxBeds: 3, time: 30 },
-                    { id: 'product9', maxBeds: 5, time: 45 },
-                    { id: 'product9', maxBeds: Infinity, time: 60 },
-                    { id: 'product10', maxBeds: 3, time: 30 },
-                    { id: 'product10', maxBeds: 5, time: 45 },
-                    { id: 'product10', maxBeds: Infinity, time: 60 },
+                    { id: '3d_showcase', maxBeds: 2, time: 25 },
+                    { id: '3d_showcase', maxBeds: 4, time: 40 },
+                    { id: '3d_showcase', maxBeds: 6, time: 55 },
+                    { id: '3d_showcase', maxBeds: 7, time: 70 },
+                    { id: '3d_showcase', maxBeds: 8, time: 85 },
+                    { id: '3d_showcase', maxBeds: 9, time: 100 },
+                    { id: '3d_showcase', maxBeds: 10, time: 115 },
+                    { id: '3d_showcase', maxBeds: 11, time: 130 },
+                    { id: '3d_showcase', maxBeds: 12, time: 145 },
                 ],
                 addOnProducts: [
                     { maxBeds: 5, time: 15 },
@@ -374,12 +380,15 @@
                     { id: 'epc', maxBeds: 3, time: 25 }, // Assuming same as photos
                     { id: 'epc', maxBeds: 5, time: 40 },
                     { id: 'epc', maxBeds: Infinity, time: 55 },
-                    { id: 'product9', maxBeds: 3, time: 25 },
-                    { id: 'product9', maxBeds: 5, time: 40 },
-                    { id: 'product9', maxBeds: Infinity, time: 55 },
-                    { id: 'product10', maxBeds: 3, time: 25 },
-                    { id: 'product10', maxBeds: 5, time: 40 },
-                    { id: 'product10', maxBeds: Infinity, time: 55 },
+                    { id: '3d_showcase', maxBeds: 2, time: 25 },
+                    { id: '3d_showcase', maxBeds: 4, time: 40 },
+                    { id: '3d_showcase', maxBeds: 6, time: 55 },
+                    { id: '3d_showcase', maxBeds: 7, time: 70 },
+                    { id: '3d_showcase', maxBeds: 8, time: 85 },
+                    { id: '3d_showcase', maxBeds: 9, time: 100 },
+                    { id: '3d_showcase', maxBeds: 10, time: 115 },
+                    { id: '3d_showcase', maxBeds: 11, time: 130 },
+                    { id: '3d_showcase', maxBeds: 12, time: 145 },
                 ],
                 addOnProducts: [
                     { maxBeds: 5, time: 10 },
@@ -402,14 +411,10 @@
             { id: 'premium_photos', name: 'Premium Photography', type: 'core' },
             { id: 'floorplan', name: 'Floorplan', type: 'core' },
             { id: 'epc', name: 'EPC', type: 'core' },
-            { id: 'product9', name: 'Product 9', type: 'core' },
-            { id: 'product10', name: 'Product 10', type: 'core' },
+            { id: '3d_showcase', name: '3D Showcase', type: 'core' },
             { id: 'drone', name: 'Drone', type: 'add-on' },
             { id: 'elevated', name: 'Elevated', type: 'add-on' },
-            { id: 'video', name: 'Video', type: 'add-on' },
-            { id: 'product6', name: 'Product 6', type: 'add-on' },
-            { id: 'product7', name: 'Product 7', type: 'add-on' },
-            { id: 'product8', name: 'Product 8', type: 'add-on' }
+            { id: 'video', name: 'Video', type: 'add-on' }
         ];
 
         // --- GLOBAL STATE ---
@@ -669,15 +674,36 @@
          */
         function populateProductsList(pageElement) {
             const listDiv = pageElement.querySelector('#products-list');
+            const pageId = pageElement.id;
             listDiv.innerHTML = '';
             productList.forEach(product => {
+                const productId = `${product.id}-${pageId}`;
                 const item = `
                     <div class="flex items-center">
-                        <input id="${product.id}" name="product" type="checkbox" value="${product.id}" data-type="${product.type}" class="h-4 w-4 text-custom-green border-gray-300 rounded focus:ring-custom-green">
-                        <label for="${product.id}" class="ml-3 block text-sm text-gray-700">${product.name}</label>
+                        <input id="${productId}" name="product" type="checkbox" value="${product.id}" data-type="${product.type}" class="h-4 w-4 text-custom-green border-gray-300 rounded focus:ring-custom-green">
+                        <label for="${productId}" class="ml-3 block text-sm text-gray-700">${product.name}</label>
                     </div>
                 `;
                 listDiv.innerHTML += item;
+            });
+
+            const standardPhotosCheckbox = pageElement.querySelector('#standard_photos-' + pageId);
+            const premiumPhotosCheckbox = pageElement.querySelector('#premium_photos-' + pageId);
+
+            standardPhotosCheckbox.addEventListener('change', () => {
+                if (standardPhotosCheckbox.checked) {
+                    premiumPhotosCheckbox.disabled = true;
+                } else {
+                    premiumPhotosCheckbox.disabled = false;
+                }
+            });
+
+            premiumPhotosCheckbox.addEventListener('change', () => {
+                if (premiumPhotosCheckbox.checked) {
+                    standardPhotosCheckbox.disabled = true;
+                } else {
+                    standardPhotosCheckbox.disabled = false;
+                }
             });
         }
 
