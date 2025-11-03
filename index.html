@@ -88,7 +88,7 @@
             <div class="mb-6">
                 <label for="team-select" class="block text-sm font-medium text-gray-700">Select Team (Area)</label>
                 <select id="team-select" class="mt-1 block w-full md:w-1/3 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green">
-                    <option selected>Area 1 - London</option>
+                    <option selected>Orbital - Area 2</option>
                     <option disabled>Area 2 - South East (v1.0 Feature)</option>
                     <option disabled>Area 3 - Midlands (v1.0 Feature)</option>
                 </select>
@@ -96,7 +96,7 @@
 
             <!-- Staff List (Mockup) -->
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-semibold text-gray-700">Staff List: Area 1</h2>
+                <h2 class="text-xl font-semibold text-gray-700">Staff List: Orbital - Area 2</h2>
                 <button class="px-4 py-2 bg-custom-green text-white text-sm font-medium rounded-md shadow-sm hover:bg-custom-green-dark" disabled>Add New Staff (Full v1.0 Feature)</button>
             </div>
             
@@ -114,8 +114,8 @@
                             <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">James Wilson</td>
                             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <select class="border-gray-300 rounded-md" disabled>
-                                    <option>Cat 1</option>
-                                    <option selected>Cat 2</option>
+                                    <option selected>Cat 1</option>
+                                    <option>Cat 2</option>
                                     <option>Cat 3</option>
                                 </select>
                             </td>
@@ -128,8 +128,34 @@
                             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <select class="border-gray-300 rounded-md" disabled>
                                     <option>Cat 1</option>
+                                    <option selected>Cat 2</option>
+                                    <option>Cat 3</option>
+                                </select>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <button class="text-red-600 hover:text-red-900" disabled>Remove (Full v1.0 Feature)</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">William Howe</td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <select class="border-gray-300 rounded-md" disabled>
+                                    <option>Cat 1</option>
                                     <option>Cat 2</option>
                                     <option selected>Cat 3</option>
+                                </select>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <button class="text-red-600 hover:text-red-900" disabled>Remove (Full v1.0 Feature)</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Kacper Chodyra</td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <select class="border-gray-300 rounded-md" disabled>
+                                    <option>Cat 1</option>
+                                    <option selected>Cat 2</option>
+                                    <option>Cat 3</option>
                                 </select>
                             </td>
                             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -280,22 +306,52 @@
                 name: "Cat 1 (New Staff)",
                 travelBuffer: 15,
                 coreProducts: [
-                    { maxBeds: 3, time: 40 },
-                    { maxBeds: 5, time: 55 },
-                    { maxBeds: Infinity, time: 70 }
+                    { id: 'standard_photos', maxBeds: 3, time: 40 },
+                    { id: 'standard_photos', maxBeds: 5, time: 55 },
+                    { id: 'standard_photos', maxBeds: Infinity, time: 70 },
+                    { id: 'premium_photos', maxBeds: 3, time: 80 },
+                    { id: 'premium_photos', maxBeds: 5, time: 95 },
+                    { id: 'premium_photos', maxBeds: Infinity, time: 110 },
+                    { id: 'floorplan', maxBeds: 3, time: 40 }, // Assuming same as photos
+                    { id: 'floorplan', maxBeds: 5, time: 55 },
+                    { id: 'floorplan', maxBeds: Infinity, time: 70 },
+                    { id: 'epc', maxBeds: 3, time: 40 }, // Assuming same as photos
+                    { id: 'epc', maxBeds: 5, time: 55 },
+                    { id: 'epc', maxBeds: Infinity, time: 70 },
+                    { id: 'product9', maxBeds: 3, time: 40 },
+                    { id: 'product9', maxBeds: 5, time: 55 },
+                    { id: 'product9', maxBeds: Infinity, time: 70 },
+                    { id: 'product10', maxBeds: 3, time: 40 },
+                    { id: 'product10', maxBeds: 5, time: 55 },
+                    { id: 'product10', maxBeds: Infinity, time: 70 },
                 ],
                 addOnProducts: [
                     { maxBeds: 5, time: 20 },
                     { maxBeds: Infinity, time: 35 }
                 ]
             },
-            cat2: { // This is the old "Standard"
+            cat2: {
                 name: "Cat 2 (Mid-Range)",
                 travelBuffer: 10,
                 coreProducts: [
-                    { maxBeds: 3, time: 30 },
-                    { maxBeds: 5, time: 45 },
-                    { maxBeds: Infinity, time: 60 }
+                    { id: 'standard_photos', maxBeds: 3, time: 30 },
+                    { id: 'standard_photos', maxBeds: 5, time: 45 },
+                    { id: 'standard_photos', maxBeds: Infinity, time: 60 },
+                    { id: 'premium_photos', maxBeds: 3, time: 60 },
+                    { id: 'premium_photos', maxBeds: 5, time: 75 },
+                    { id: 'premium_photos', maxBeds: Infinity, time: 90 },
+                    { id: 'floorplan', maxBeds: 3, time: 30 }, // Assuming same as photos
+                    { id: 'floorplan', maxBeds: 5, time: 45 },
+                    { id: 'floorplan', maxBeds: Infinity, time: 60 },
+                    { id: 'epc', maxBeds: 3, time: 30 }, // Assuming same as photos
+                    { id: 'epc', maxBeds: 5, time: 45 },
+                    { id: 'epc', maxBeds: Infinity, time: 60 },
+                    { id: 'product9', maxBeds: 3, time: 30 },
+                    { id: 'product9', maxBeds: 5, time: 45 },
+                    { id: 'product9', maxBeds: Infinity, time: 60 },
+                    { id: 'product10', maxBeds: 3, time: 30 },
+                    { id: 'product10', maxBeds: 5, time: 45 },
+                    { id: 'product10', maxBeds: Infinity, time: 60 },
                 ],
                 addOnProducts: [
                     { maxBeds: 5, time: 15 },
@@ -306,9 +362,24 @@
                 name: "Cat 3 (Experienced)",
                 travelBuffer: 10,
                 coreProducts: [
-                    { maxBeds: 3, time: 25 },
-                    { maxBeds: 5, time: 40 },
-                    { maxBeds: Infinity, time: 55 }
+                    { id: 'standard_photos', maxBeds: 3, time: 25 },
+                    { id: 'standard_photos', maxBeds: 5, time: 40 },
+                    { id: 'standard_photos', maxBeds: Infinity, time: 55 },
+                    { id: 'premium_photos', maxBeds: 3, time: 45 },
+                    { id: 'premium_photos', maxBeds: 5, time: 60 },
+                    { id: 'premium_photos', maxBeds: Infinity, time: 75 },
+                    { id: 'floorplan', maxBeds: 3, time: 25 }, // Assuming same as photos
+                    { id: 'floorplan', maxBeds: 5, time: 40 },
+                    { id: 'floorplan', maxBeds: Infinity, time: 55 },
+                    { id: 'epc', maxBeds: 3, time: 25 }, // Assuming same as photos
+                    { id: 'epc', maxBeds: 5, time: 40 },
+                    { id: 'epc', maxBeds: Infinity, time: 55 },
+                    { id: 'product9', maxBeds: 3, time: 25 },
+                    { id: 'product9', maxBeds: 5, time: 40 },
+                    { id: 'product9', maxBeds: Infinity, time: 55 },
+                    { id: 'product10', maxBeds: 3, time: 25 },
+                    { id: 'product10', maxBeds: 5, time: 40 },
+                    { id: 'product10', maxBeds: Infinity, time: 55 },
                 ],
                 addOnProducts: [
                     { maxBeds: 5, time: 10 },
@@ -319,30 +390,33 @@
 
         // Hard-coded photographer list
         let photographerProfiles = {
-            p1: { name: "James Wilson", category: 'cat2' },
-            p2: { name: "Paul Udgaranya", category: 'cat3' },
+            p1: { name: "James Wilson", category: 'cat1' },
+            p2: { name: "Paul Udgaranya", category: 'cat2' },
+            p3: { name: "William Howe", category: 'cat3' },
+            p4: { name: "Kacper Chodyra", category: 'cat2' },
         };
         
         // List of all products offered
         const productList = [
-            { id: 'photos', name: 'Photos', type: 'core' },
+            { id: 'standard_photos', name: 'Standard Photos', type: 'core' },
+            { id: 'premium_photos', name: 'Premium Photography', type: 'core' },
             { id: 'floorplan', name: 'Floorplan', type: 'core' },
             { id: 'epc', name: 'EPC', type: 'core' },
+            { id: 'product9', name: 'Product 9', type: 'core' },
+            { id: 'product10', name: 'Product 10', type: 'core' },
             { id: 'drone', name: 'Drone', type: 'add-on' },
             { id: 'elevated', name: 'Elevated', type: 'add-on' },
             { id: 'video', name: 'Video', type: 'add-on' },
-            // Added new products as per v1.0 spec
             { id: 'product6', name: 'Product 6', type: 'add-on' },
             { id: 'product7', name: 'Product 7', type: 'add-on' },
-            { id: 'product8', name: 'Product 8', type: 'add-on' },
-            { id: 'product9', name: 'Product 9', type: 'core' },
-            { id: 'product10', name: 'Product 10', type: 'core' },
+            { id: 'product8', name: 'Product 8', type: 'add-on' }
         ];
 
         // --- GLOBAL STATE ---
         
-        let appointments = {}; 
-        let currentPhotographerId = null;
+        let appointments = {};
+        let diaryPages = []; // NEW: Array to hold diary page states
+        let currentPageId = null; // NEW: To track the active page
 
         // --- CORE FUNCTIONS ---
 
@@ -357,18 +431,76 @@
                 }
             }
 
-            populateMainTabs(); // <-- Updated function
+            addNewDiaryPage(); // Add the first diary page
+            populateMainTabs();
             populateKeySheet();
-            populateProductsList();
-            populatePhotographerDropdown(); // <-- New function
+            populateProductsList(document.getElementById('page-diary-0'));
+            populatePhotographerDropdown(document.getElementById('page-diary-0').querySelector('#photographer-select'));
 
-            document.getElementById('appointment-form').addEventListener('submit', handleAddAppointment);
-            document.getElementById('reset-schedule').addEventListener('click', resetSchedule);
-            document.getElementById('photographer-select').addEventListener('change', selectPhotographer);
+            document.getElementById('page-diary-0').querySelector('#appointment-form').addEventListener('submit', handleAddAppointment);
+            document.getElementById('page-diary-0').querySelector('#reset-schedule').addEventListener('click', resetSchedule);
+            document.getElementById('page-diary-0').querySelector('#photographer-select').addEventListener('change', selectPhotographer);
 
             // Show the 'Staff Hub' sheet by default
             switchSheet('page-staff-hub');
-            disableCalculatorForm(true); // Disable form by default
+        }
+
+        function addNewDiaryPage() {
+            const newPageId = `page-diary-${diaryPages.length}`;
+            const newPage = {
+                id: newPageId,
+                photographerId: null,
+                name: "Diary Booking"
+            };
+            diaryPages.push(newPage);
+
+            const mainContent = document.querySelector('main');
+            const diaryPageClone = document.getElementById('page-diary').cloneNode(true);
+            diaryPageClone.id = newPageId;
+            diaryPageClone.classList.add('hidden');
+
+            if (diaryPages.length > 1) {
+                const closeButton = document.createElement('button');
+                closeButton.className = "absolute top-0 right-0 p-2 text-gray-500 hover:text-red-600";
+                closeButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>';
+                closeButton.addEventListener('click', () => closeDiaryPage(newPageId));
+                
+                const scheduleTitle = diaryPageClone.querySelector('#schedule-title');
+                scheduleTitle.parentNode.style.position = 'relative';
+                scheduleTitle.parentNode.appendChild(closeButton);
+            }
+
+            mainContent.appendChild(diaryPageClone);
+
+            populateProductsList(diaryPageClone);
+            const newPhotographerSelect = diaryPageClone.querySelector('#photographer-select');
+            populatePhotographerDropdown(newPhotographerSelect);
+            newPhotographerSelect.addEventListener('change', selectPhotographer);
+
+            diaryPageClone.querySelector('#appointment-form').addEventListener('submit', handleAddAppointment);
+            diaryPageClone.querySelector('#reset-schedule').addEventListener('click', resetSchedule);
+
+
+            currentPageId = newPageId;
+            populateMainTabs();
+            switchSheet(newPageId);
+        }
+
+        function closeDiaryPage(pageId) {
+            showModal("Are you sure you want to close this page?", () => {
+                const pageIndex = diaryPages.findIndex(p => p.id === pageId);
+                if (pageIndex > -1) {
+                    diaryPages.splice(pageIndex, 1);
+                    const pageElement = document.getElementById(pageId);
+                    if (pageElement) {
+                        pageElement.remove();
+                    }
+                    populateMainTabs();
+                    if (currentPageId === pageId) {
+                        switchSheet('page-staff-hub');
+                    }
+                }
+            });
         }
         
         /**
@@ -377,20 +509,19 @@
         function populateMainTabs() {
             const nav = document.getElementById('tab-navigation');
             nav.innerHTML = ''; // Clear existing tabs
-            
-            const pages = [
+
+            const staticPages = [
                 { id: 'page-staff-hub', name: 'Staff Hub', icon: 'users' },
                 { id: 'page-key', name: 'Key', icon: 'key' },
-                { id: 'page-diary', name: 'Diary Booking', icon: 'calendar-days' }
             ];
 
-            pages.forEach(page => {
+            const allPages = [...staticPages, ...diaryPages.map(p => ({...p, icon: 'calendar-days'}))];
+
+            allPages.forEach(page => {
                 const tab = document.createElement('button');
                 tab.dataset.sheet = page.id;
-                // ** FIX: Removed 'min-w-max' to prevent shrinking **
                 tab.className = 'tab flex-1 p-4 text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-custom-green focus:outline-none flex items-center justify-center';
                 
-                // Hacky way to get heroicons
                 let iconSvg = '';
                 if (page.icon === 'users') {
                     iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372m.375-3.72a9.375 9.375 0 0 0-3.75 0m5.625 3.72a9.375 9.375 0 0 1-3.75 0M3.375 19.128a9.375 9.375 0 0 1 3.75 0m5.625 3.72a9.375 9.375 0 0 0-3.75 0m3.75-3.72a9.375 9.375 0 0 0 3.75 0m-9.375 3.72a9.375 9.375 0 0 1-3.75 0M14.625 12a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm-3.375 0a.375.375 0 0 0-.375.375v.375c0 .207.168.375.375.375h.375a.375.375 0 0 0 .375-.375v-.375a.375.375 0 0 0-.375-.375h-.375Z" /></svg>';
@@ -404,18 +535,26 @@
                 tab.addEventListener('click', () => switchSheet(page.id));
                 nav.appendChild(tab);
             });
+
+            const addTab = document.createElement('button');
+            addTab.className = 'p-4 text-sm font-medium text-white bg-custom-green hover:bg-custom-green-dark focus:outline-none flex items-center justify-center';
+            addTab.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>';
+            addTab.addEventListener('click', addNewDiaryPage);
+            nav.appendChild(addTab);
         }
 
         /**
          * Switch between the 'sheets'
          */
         function switchSheet(sheetId) {
+            currentPageId = sheetId;
             // Hide all sheets
             document.querySelectorAll('.sheet-content').forEach(sheet => {
                 sheet.classList.add('hidden');
             });
             // Show the selected one
-            document.getElementById(sheetId).classList.remove('hidden');
+            const pageElement = document.getElementById(sheetId);
+            pageElement.classList.remove('hidden');
 
             // Update tab active state
             document.querySelectorAll('.tab').forEach(tab => {
@@ -424,19 +563,24 @@
                     tab.classList.add('active');
                 }
             });
+
+            const page = diaryPages.find(p => p.id === sheetId);
+            if (page) {
+                disableCalculatorForm(pageElement, !page.photographerId);
+            }
         }
 
         /**
          * Populate the photographer dropdown on the Diary page
          */
-        function populatePhotographerDropdown() {
-            const select = document.getElementById('photographer-select');
+        function populatePhotographerDropdown(selectElement) {
+            selectElement.innerHTML = '<option value="" disabled selected>Select a photographer...</option>';
             for (const photoId in photographerProfiles) {
                 const profile = photographerProfiles[photoId];
                 const option = document.createElement('option');
                 option.value = photoId;
                 option.textContent = profile.name;
-                select.appendChild(option);
+                selectElement.appendChild(option);
             }
         }
         
@@ -523,8 +667,8 @@
         /**
          * Populate the checkboxes for products on the form
          */
-        function populateProductsList() {
-            const listDiv = document.getElementById('products-list');
+        function populateProductsList(pageElement) {
+            const listDiv = pageElement.querySelector('#products-list');
             listDiv.innerHTML = '';
             productList.forEach(product => {
                 const item = `
@@ -541,31 +685,34 @@
          * Handle selecting a photographer from the dropdown
          */
         function selectPhotographer(e) {
-            currentPhotographerId = e.target.value;
-            if (currentPhotographerId) {
-                // Enable the form
-                disableCalculatorForm(false);
-                const profile = photographerProfiles[currentPhotographerId];
-                const category = timingCategories[profile.category];
-                document.getElementById('schedule-title').textContent = `Calculated Schedule: ${profile.name}`;
-                document.getElementById('photographer-category-display').textContent = `Using Category: ${category.name}`;
-                renderSchedule();
-                resetFormFields();
+            const pageElement = e.target.closest('.sheet-content');
+            const pageId = pageElement.id;
+            const page = diaryPages.find(p => p.id === pageId);
+            if (!page) return;
+
+            page.photographerId = e.target.value;
+            if (page.photographerId) {
+                const profile = photographerProfiles[page.photographerId];
+                page.name = `Diary Booking - ${profile.name}`;
+                disableCalculatorForm(pageElement, false);
+                pageElement.querySelector('#schedule-title').textContent = `Calculated Schedule: ${profile.name}`;
+                pageElement.querySelector('#photographer-category-display').textContent = `Using Category: ${timingCategories[profile.category].name}`;
             } else {
-                // Disable the form
-                disableCalculatorForm(true);
-                currentPhotographerId = null;
-                document.getElementById('schedule-title').textContent = `Calculated Schedule`;
-                document.getElementById('photographer-category-display').textContent = ``;
-                renderSchedule();
+                page.name = "Diary Booking";
+                disableCalculatorForm(pageElement, true);
+                pageElement.querySelector('#schedule-title').textContent = `Calculated Schedule`;
+                pageElement.querySelector('#photographer-category-display').textContent = ``;
             }
+            populateMainTabs();
+            renderSchedule();
+            resetFormFields(pageElement);
         }
 
         /**
          * Enable/disable the calculator form
          */
-        function disableCalculatorForm(disabled) {
-            const wrapper = document.getElementById('form-fields-wrapper');
+        function disableCalculatorForm(pageElement, disabled) {
+            const wrapper = pageElement.querySelector('#form-fields-wrapper');
             if (disabled) {
                 wrapper.classList.add('opacity-50', 'pointer-events-none');
             } else {
@@ -580,7 +727,10 @@
         function handleAddAppointment(e) {
             e.preventDefault();
             
-            if (!currentPhotographerId) {
+            const pageElement = e.target.closest('.sheet-content');
+            const pageId = pageElement.id;
+            const page = diaryPages.find(p => p.id === pageId);
+            if (!page || !page.photographerId) {
                 showModal("Please select a photographer first.");
                 return;
             }
@@ -589,10 +739,10 @@
             // This is the "Path B" logic we agreed on.
             
             // 1. Get all form values
-            const bedrooms = parseInt(document.getElementById('bedrooms').value) || 0;
-            const travelTime = parseInt(document.getElementById('travel-time').value) || 0;
+            const bedrooms = parseInt(pageElement.querySelector('#bedrooms').value) || 0;
+            const travelTime = parseInt(pageElement.querySelector('#travel-time').value) || 0;
             const selectedProducts = [];
-            document.querySelectorAll('input[name="product"]:checked').forEach(checkbox => {
+            pageElement.querySelectorAll('input[name="product"]:checked').forEach(checkbox => {
                 selectedProducts.push({
                     id: checkbox.value,
                     name: checkbox.nextElementSibling.textContent,
@@ -600,9 +750,9 @@
                 });
             });
             // Get Optional Reference Fields
-            const orderRef = document.getElementById('ref-order-id').value;
-            const address = document.getElementById('ref-address').value;
-            const postcode = document.getElementById('ref-postcode').value;
+            const orderRef = pageElement.querySelector('#ref-order-id').value;
+            const address = pageElement.querySelector('#ref-address').value;
+            const postcode = pageElement.querySelector('#ref-postcode').value;
 
 
             // 2. Validation
@@ -616,8 +766,8 @@
             }
             
             // 3. Get ruleset and calculate duration
-            const currentSchedule = appointments[currentPhotographerId];
-            const categoryId = photographerProfiles[currentPhotographerId].category;
+            const currentSchedule = appointments[page.photographerId];
+            const categoryId = photographerProfiles[page.photographerId].category;
             const ruleset = timingCategories[categoryId];
             const duration = calculateDuration(bedrooms, selectedProducts, ruleset);
 
@@ -641,7 +791,7 @@
                 // --- WMS LOGIC (First Job) ---
                 wmsTimeMins = arrivalTimeMins; // WMS time is the start, e.g., 540
                 
-                latestFinishTimeForNextJob = finishWindowEndMins;
+                latestFinishTimeForNextJob = finishTimeMins;
 
             } else {
                 // This is a SUBSEQUENT job
@@ -666,7 +816,7 @@
                 // 2. Round that midpoint to the nearest 30 mins (e.g., 720)
                 wmsTimeMins = roundToNearest(midArrivalMins, 30);
 
-                latestFinishTimeForNextJob = finishWindowEndMins;
+                latestFinishTimeForNextJob = finishTimeMins;
             }
 
             // 5. Create appointment object
@@ -692,38 +842,41 @@
 
             currentSchedule.push(newAppointment);
             renderSchedule();
-            resetFormFields();
+            resetFormFields(pageElement);
         }
         
         /**
          * Resets the entire schedule for the *current* photographer
          */
         function resetSchedule() {
-            if (!currentPhotographerId) return;
+            const page = diaryPages.find(p => p.id === currentPageId);
+            if (!page || !page.photographerId) return;
             
-            appointments[currentPhotographerId] = [];
+            appointments[page.photographerId] = [];
             renderSchedule();
-            resetFormFields(true); // Force reset day start time
+            const pageElement = document.getElementById(currentPageId);
+            resetFormFields(pageElement, true); // Force reset day start time
         }
         
         /**
          * Resets form fields, manages input enable/disable based on schedule
          */
-        function resetFormFields(forceResetDayStart = false) {
-            const travelInput = document.getElementById('travel-time');
-            const arrivalInput = document.getElementById('first-job-arrival-time');
+        function resetFormFields(pageElement, forceResetDayStart = false) {
+            const travelInput = pageElement.querySelector('#travel-time');
+            const arrivalInput = pageElement.querySelector('#first-job-arrival-time');
             
-            document.getElementById('bedrooms').value = '';
-            document.querySelectorAll('input[name="product"]:checked').forEach(checkbox => {
+            pageElement.querySelector('#bedrooms').value = '';
+            pageElement.querySelectorAll('input[name="product"]:checked').forEach(checkbox => {
                 checkbox.checked = false;
             });
             // Clear reference fields
-            document.getElementById('ref-order-id').value = '';
-            document.getElementById('ref-address').value = '';
-            document.getElementById('ref-postcode').value = '';
+            pageElement.querySelector('#ref-order-id').value = '';
+            pageElement.querySelector('#ref-address').value = '';
+            pageElement.querySelector('#ref-postcode').value = '';
 
 
-            const currentSchedule = currentPhotographerId ? appointments[currentPhotographerId] : [];
+            const page = diaryPages.find(p => p.id === currentPageId);
+            const currentSchedule = page && page.photographerId ? appointments[page.photographerId] : [];
 
             if (forceResetDayStart || !currentSchedule || currentSchedule.length === 0) {
                 // This is for the FIRST job
@@ -748,24 +901,24 @@
          * Calculate the total on-site duration based on bedrooms and products
          */
         function calculateDuration(bedrooms, products, ruleset) {
-            const coreRule = ruleset.coreProducts.find(rule => bedrooms <= rule.maxBeds);
-            const coreProductTime = coreRule ? coreRule.time : 0;
-            
+            let totalDuration = 0;
             const addOnRule = ruleset.addOnProducts.find(rule => bedrooms <= rule.maxBeds);
             const addOnProductTime = addOnRule ? addOnRule.time : 0;
 
-            let coreProductCount = 0;
-            let addOnProductCount = 0;
-            
             products.forEach(product => {
                 if (product.type === 'core') {
-                    coreProductCount++;
+                    const coreRule = ruleset.coreProducts
+                        .filter(rule => rule.id === product.id)
+                        .sort((a, b) => a.maxBeds - b.maxBeds)
+                        .find(rule => bedrooms <= rule.maxBeds);
+                    if (coreRule) {
+                        totalDuration += coreRule.time;
+                    }
                 } else if (product.type === 'add-on') {
-                    addOnProductCount++;
+                    totalDuration += addOnProductTime;
                 }
             });
 
-            const totalDuration = (coreProductCount * coreProductTime) + (addOnProductCount * addOnProductTime);
             return totalDuration;
         }
 
@@ -773,12 +926,15 @@
          * Re-draw the schedule table for the *current* photographer
          */
         function renderSchedule() {
-            const tbody = document.getElementById('schedule-body');
+            const pageElement = document.getElementById(currentPageId);
+            if (!pageElement) return;
+            const tbody = pageElement.querySelector('#schedule-body');
             tbody.innerHTML = ''; // Clear table
+
+            const page = diaryPages.find(p => p.id === currentPageId);
+            if (!page || !page.photographerId) return;
             
-            if (!currentPhotographerId) return;
-            
-            const currentSchedule = appointments[currentPhotographerId];
+            const currentSchedule = appointments[page.photographerId];
             
             currentSchedule.forEach((appt, index) => {
                 // Create display strings for windows
@@ -851,40 +1007,59 @@
         /**
          * Shows a custom modal dialog instead of alert()
          */
-        function showModal(message) {
+        function showModal(message, onConfirm) {
             let modal = document.getElementById('alert-modal');
             if (modal) {
-                modal.remove(); 
+                modal.remove();
             }
 
             modal = document.createElement('div');
             modal.id = 'alert-modal';
             modal.className = 'fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50';
-            
+
             const modalContent = document.createElement('div');
             modalContent.className = 'relative mx-auto p-6 border w-96 shadow-lg rounded-md bg-white';
-            
+
             const text = document.createElement('p');
             text.className = 'text-gray-700 text-sm';
             text.textContent = message;
-            
+
             const buttonContainer = document.createElement('div');
             buttonContainer.className = 'text-right mt-4';
-            
-            const closeButton = document.createElement('button');
-            closeButton.className = 'px-4 py-2 bg-custom-green text-white text-sm font-medium rounded-md shadow-sm hover:bg-custom-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green';
-            closeButton.textContent = 'OK';
-            closeButton.onclick = function() {
-                modal.remove();
-            };
-            
-            buttonContainer.appendChild(closeButton);
+
+            if (onConfirm) {
+                const confirmButton = document.createElement('button');
+                confirmButton.className = 'px-4 py-2 bg-custom-green text-white text-sm font-medium rounded-md shadow-sm hover:bg-custom-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green';
+                confirmButton.textContent = 'Yes';
+                confirmButton.onclick = function() {
+                    onConfirm();
+                    modal.remove();
+                };
+                buttonContainer.appendChild(confirmButton);
+
+                const cancelButton = document.createElement('button');
+                cancelButton.className = 'ml-2 px-4 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400';
+                cancelButton.textContent = 'No';
+                cancelButton.onclick = function() {
+                    modal.remove();
+                };
+                buttonContainer.appendChild(cancelButton);
+                confirmButton.focus();
+            } else {
+                const closeButton = document.createElement('button');
+                closeButton.className = 'px-4 py-2 bg-custom-green text-white text-sm font-medium rounded-md shadow-sm hover:bg-custom-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green';
+                closeButton.textContent = 'OK';
+                closeButton.onclick = function() {
+                    modal.remove();
+                };
+                buttonContainer.appendChild(closeButton);
+                closeButton.focus();
+            }
+
             modalContent.appendChild(text);
             modalContent.appendChild(buttonContainer);
             modal.appendChild(modalContent);
             document.body.appendChild(modal);
-            
-            closeButton.focus();
         }
 
         // --- START THE APP ---
