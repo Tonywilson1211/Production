@@ -178,6 +178,86 @@
             </div>
         </div>
 
+        <!-- Page 4: Duration Calculator (NEW) -->
+        <div id="page-calculator" class="sheet-content hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Input Form -->
+                <div class="lg:col-span-1 bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6">Duration Calculator</h2>
+                    <p class="text-sm text-gray-600 mb-4">A quick-lookup tool to estimate on-site time for a job.</p>
+                    
+                    <form id="calculator-form" class="space-y-4">
+                        <!-- Context Dropdown -->
+                        <div>
+                            <label for="context-select" class="block text-sm font-medium text-gray-700">Select Context</label>
+                            <select id="context-select" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green">
+                                <!-- Options will be injected by JS -->
+                            </select>
+                        </div>
+                        
+                        <!-- Bedrooms -->
+                        <div>
+                            <label for="calc-bedrooms" class="block text-sm font-medium text-gray-700">Property Size (Bedrooms)</label>
+                            <input type="number" id="calc-bedrooms" min="1" value="3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green" placeholder="e.g., 3">
+                        </div>
+
+                        <!-- Floors -->
+                        <div id="calc-floors-wrapper" class="floors-input-wrapper hidden">
+                            <label for="calc-num-floors" class="block text-sm font-medium text-gray-700">Number of Floors (for 3D)</label>
+                            <input type="number" id="calc-num-floors" name="num-floors" min="1" value="1" class="num-floors-input mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green">
+                        </div>
+                        
+                        <!-- Products -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Products</label>
+                            <div class="mt-2 space-y-2 h-48 overflow-y-auto border p-2 rounded-md" id="calc-products-list">
+                                <!-- Checkboxes will be injected by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Calculate Button -->
+                        <div class="pt-4">
+                            <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-custom-green hover:bg-custom-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green">
+                                Calculate Duration
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Results Panel -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6">Calculation Results</h2>
+                    <div id="duration-results-wrapper" class="hidden space-y-6">
+                        
+                        <!-- Total Time Display -->
+                        <div class="text-center bg-custom-green text-white p-6 rounded-lg shadow">
+                            <label class="block text-sm font-medium uppercase tracking-wider">Total On-Site Time (for <span id="selected-context-name">Cat 2</span>)</label>
+                            <p id="total-time-display" class="text-5xl font-bold">1h 20m</p>
+                            <p id="total-time-minutes" class="text-lg">(80 minutes)</p>
+                        </div>
+                        
+                        <!-- Category Comparison -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700 mb-3">1. Category Comparison</h3>
+                            <div id="category-comparison-display" class="space-y-2">
+                                <!-- Comparison rows will be injected by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Calculation Breakdown -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700 mb-3">2. Calculation Breakdown (<span id="breakdown-context-name">Cat 2</span>)</h3>
+                            <div id="calculation-breakdown-display" class="text-sm space-y-2 p-4 bg-gray-50 rounded-md border">
+                                <!-- Breakdown items will be injected by JS -->
+                            </div>
+                        </div>
+                    </div>
+                    <p id="duration-placeholder" class="text-gray-500">Please select your inputs and click "Calculate" to see the results.</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Page 3: Photographer Calculator -->
         <div id="page-diary" class="sheet-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -416,6 +496,12 @@
             document.getElementById('page-diary-0').querySelector('#reset-schedule').addEventListener('click', resetSchedule);
             document.getElementById('page-diary-0').querySelector('#photographer-select').addEventListener('change', selectPhotographer);
 
+            // Setup for new Duration Calculator page
+            populateContextDropdown();
+            populateCalcProductsList();
+            toggleCalcFloorInput(document.getElementById('page-calculator')); // Initial check
+            document.getElementById('calculator-form').addEventListener('submit', handleCalculateDuration);
+
             // Show the 'Staff Hub' sheet by default
             switchSheet('page-staff-hub');
         }
@@ -489,9 +575,11 @@
             const staticPages = [
                 { id: 'page-staff-hub', name: 'Staff Hub', icon: 'users' },
                 { id: 'page-key', name: 'Key', icon: 'key' },
+                { id: 'page-calculator', name: 'Duration Calculator', icon: 'calculator' }, // <-- NEW PAGE
+                { id: 'page-diary-0', name: 'Diary Booking', icon: 'calendar-days' } // <-- UPDATED ID
             ];
 
-            const allPages = [...staticPages, ...diaryPages.map(p => ({...p, icon: 'calendar-days'}))];
+            const allPages = [...staticPages];
 
             allPages.forEach(page => {
                 const tab = document.createElement('button');
@@ -503,6 +591,8 @@
                     iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372m.375-3.72a9.375 9.375 0 0 0-3.75 0m5.625 3.72a9.375 9.375 0 0 1-3.75 0M3.375 19.128a9.375 9.375 0 0 1 3.75 0m5.625 3.72a9.375 9.375 0 0 0-3.75 0m3.75-3.72a9.375 9.375 0 0 0 3.75 0m-9.375 3.72a9.375 9.375 0 0 1-3.75 0M14.625 12a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm-3.375 0a.375.375 0 0 0-.375.375v.375c0 .207.168.375.375.375h.375a.375.375 0 0 0 .375-.375v-.375a.375.375 0 0 0-.375-.375h-.375Z" /></svg>';
                 } else if (page.icon === 'key') {
                     iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" /></svg>';
+                } else if (page.icon === 'calculator') {
+                    iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25v-.008Zm2.25-4.5h.008v.008H10.5v-.008Zm0 2.25h.008v.008H10.5v-.008Zm0 2.25h.008v.008H10.5v-.008Zm2.25-4.5h.008v.008H12.75v-.008Zm0 2.25h.008v.008H12.75v-.008Zm0 2.25h.008v.008H12.75v-.008Zm2.25-4.5h.008v.008H15v-.008Zm0 2.25h.008v.008H15v-.008Zm0 2.25h.008v.008H15v-.008Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h18M3 21h18v-3H3v3Zm0-3h18V6H3v12Z" /></svg>';
                 } else if (page.icon === 'calendar-days') {
                     iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>';
                 }
@@ -556,11 +646,40 @@
                 const option = document.createElement('option');
                 option.value = photoId;
                 option.textContent = profile.name;
-                selectElement.appendChild(option);
             }
         }
         
         /**
+         * NEW: Populates the dropdown on the Duration Calculator page
+         */
+        function populateContextDropdown() {
+            const select = document.getElementById('context-select');
+            select.innerHTML = ''; // Clear options
+
+            // Add Generic Categories
+            select.innerHTML += `<option value="" disabled selected>Select a context...</option>`;
+            select.innerHTML += `<optgroup label="Generic Categories">`;
+            for (const catId in timingCategories) {
+                const category = timingCategories[catId];
+                const option = document.createElement('option');
+                option.value = catId; // e.g., "cat1"
+                option.textContent = category.name;
+                select.querySelector('optgroup[label="Generic Categories"]').appendChild(option);
+            }
+            select.innerHTML += `</optgroup>`;
+
+            // Add Photographers
+            select.innerHTML += `<optgroup label="Photographers">`;
+            for (const photoId in photographerProfiles) {
+                const profile = photographerProfiles[photoId];
+                const category = timingCategories[profile.category];
+                const option = document.createElement('option');
+                option.value = profile.category; // e.g., "cat1"
+                option.textContent = `${profile.name} (${category.name})`;
+                select.querySelector('optgroup[label="Photographers"]').appendChild(option);
+            }
+            select.innerHTML += `</optgroup>`;
+        }        /**
          * Populate the 'Key' sheet with tables for *all* categories
          */
         function populateKeySheet() {
@@ -693,6 +812,54 @@
         }
 
         /**
+         * NEW: Populates the product list on the Duration Calculator page
+         */
+        function populateCalcProductsList() {
+            const pageElement = document.getElementById('page-calculator');
+            const listDiv = pageElement.querySelector('#calc-products-list');
+            const pageId = 'calculator-page'; // Unique static ID
+            listDiv.innerHTML = '';
+            
+            productList.forEach(product => {
+                const productId = `${product.id}-${pageId}`; // Unique ID for the checkbox
+                const item = `
+                    <div class="flex items-center">
+                        <input id="${productId}" name="calc-product" type="checkbox" value="${product.id}" data-product-id="${product.id}" class="h-4 w-4 text-custom-green border-gray-300 rounded focus:ring-custom-green calc-product-checkbox">
+                        <label for="${productId}" class="ml-3 block text-sm text-gray-700">${product.name}</label>
+                    </div>
+                `;
+                listDiv.innerHTML += item;
+            });
+
+            // --- MUTUAL EXCLUSION LOGIC ---
+            const standardPhotosCheckbox = pageElement.querySelector(`input[data-product-id="standard_photos"]`);
+            const premiumPhotosCheckbox = pageElement.querySelector(`input[data-product-id="premium_photos"]`);
+
+            standardPhotosCheckbox.addEventListener('change', () => {
+                if (standardPhotosCheckbox.checked) {
+                    premiumPhotosCheckbox.disabled = true;
+                    premiumPhotosCheckbox.checked = false; // Uncheck it
+                } else {
+                    premiumPhotosCheckbox.disabled = false;
+                }
+            });
+
+            premiumPhotosCheckbox.addEventListener('change', () => {
+                if (premiumPhotosCheckbox.checked) {
+                    standardPhotosCheckbox.disabled = true;
+                    standardPhotosCheckbox.checked = false; // Uncheck it
+                } else {
+                    standardPhotosCheckbox.disabled = false;
+                }
+            });
+
+            // --- 3D SHOWCASE FLOOR INPUT LOGIC ---
+            pageElement.querySelectorAll('.calc-product-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', () => toggleCalcFloorInput(pageElement));
+            });
+        }
+
+        /**
          * NEW: Show/Hide the "Number of Floors" input based on 3D Showcase
          */
         function toggleFloorInput(pageElement) {
@@ -705,6 +872,22 @@
             } else {
                 floorsWrapper.classList.add('hidden');
                 pageElement.querySelector('.num-floors-input').value = 1; // Reset to 1 when hidden
+            }
+        }
+
+        /**
+         * NEW: Show/Hide the "Number of Floors" input on the Calculator page
+         */
+        function toggleCalcFloorInput(pageElement) {
+            // Find the elements *within the calculator page*
+            const showcaseCheckbox = pageElement.querySelector(`input[data-product-id="showcase_3d"]`);
+            const floorsWrapper = pageElement.querySelector('#calc-floors-wrapper');
+            
+            if (showcaseCheckbox && showcaseCheckbox.checked) {
+                floorsWrapper.classList.remove('hidden');
+            } else {
+                floorsWrapper.classList.add('hidden');
+                pageElement.querySelector('#calc-num-floors').value = 1; // Reset to 1 when hidden
             }
         }
 
@@ -873,6 +1056,130 @@
             currentSchedule.push(newAppointment);
             renderSchedule();
             resetFormFields(pageElement);
+        }
+
+        /**
+         * NEW: Handles the "Calculate" button click on the Duration Calculator page
+         */
+        function handleCalculateDuration(e) {
+            e.preventDefault();
+            
+            const pageElement = document.getElementById('page-calculator');
+            const resultsWrapper = pageElement.querySelector('#duration-results-wrapper');
+            const placeholder = pageElement.querySelector('#duration-placeholder');
+
+            // 1. Get all form inputs
+            const contextCatId = pageElement.querySelector('#context-select').value;
+            const bedrooms = parseInt(pageElement.querySelector('#calc-bedrooms').value) || 0;
+            const numFloors = parseInt(pageElement.querySelector('#calc-num-floors').value) || 1;
+            
+            const selectedProducts = [];
+            pageElement.querySelectorAll('input[name="calc-product"]:checked').forEach(checkbox => {
+                selectedProducts.push({
+                    id: checkbox.value,
+                    name: checkbox.nextElementSibling.textContent
+                });
+            });
+
+            // 2. Validation
+            if (!contextCatId) {
+                showModal("Please select a context (Category or Photographer) first.");
+                return;
+            }
+            if (bedrooms <= 0) {
+                showModal("Please enter a valid number of bedrooms.");
+                return;
+            }
+            if (selectedProducts.length === 0) {
+                showModal("Please select at least one product.");
+                return;
+            }
+
+            // 3. Get the ruleset for the *selected* context
+            const selectedRuleset = timingCategories[contextCatId];
+            const selectedContextName = selectedRuleset.name;
+
+            // 4. Run the main calculation for the selected context
+            const totalTime = calculateDuration(bedrooms, selectedProducts, selectedRuleset, numFloors);
+            
+            // 5. Populate the main display
+            pageElement.querySelector('#total-time-display').textContent = formatDuration(totalTime);
+            pageElement.querySelector('#total-time-minutes').textContent = `(${totalTime} minutes)`;
+            pageElement.querySelector('#selected-context-name').textContent = selectedContextName;
+            
+            // 6. Run the Category Comparison calculations
+            const cat1Time = calculateDuration(bedrooms, selectedProducts, timingCategories['cat1'], numFloors);
+            const cat2Time = calculateDuration(bedrooms, selectedProducts, timingCategories['cat2'], numFloors);
+            const cat3Time = calculateDuration(bedrooms, selectedProducts, timingCategories['cat3'], numFloors);
+
+            const comparisonWrapper = pageElement.querySelector('#category-comparison-display');
+            comparisonWrapper.innerHTML = `
+                <div class="flex justify-between p-3 rounded-md ${contextCatId === 'cat1' ? 'bg-green-100 border border-custom-green' : 'bg-gray-50'}">
+                    <span class="font-medium ${contextCatId === 'cat1' ? 'text-custom-green' : 'text-gray-700'}">Cat 1 (New Staff):</span>
+                    <span class="font-bold ${contextCatId === 'cat1' ? 'text-custom-green' : 'text-gray-900'}">${formatDuration(cat1Time)}</span>
+                </div>
+                <div class="flex justify-between p-3 rounded-md ${contextCatId === 'cat2' ? 'bg-green-100 border border-custom-green' : 'bg-gray-50'}">
+                    <span class="font-medium ${contextCatId === 'cat2' ? 'text-custom-green' : 'text-gray-700'}">Cat 2 (Mid-Range):</span>
+                    <span class="font-bold ${contextCatId === 'cat2' ? 'text-custom-green' : 'text-gray-900'}">${formatDuration(cat2Time)}</span>
+                </div>
+                <div class="flex justify-between p-3 rounded-md ${contextCatId === 'cat3' ? 'bg-green-100 border border-custom-green' : 'bg-gray-50'}">
+                    <span class="font-medium ${contextCatId === 'cat3' ? 'text-custom-green' : 'text-gray-700'}">Cat 3 (Experienced):</span>
+                    <span class="font-bold ${contextCatId === 'cat3' ? 'text-custom-green' : 'text-gray-900'}">${formatDuration(cat3Time)}</span>
+                </div>
+            `;
+
+            // 7. Get and Populate the Calculation Breakdown
+            pageElement.querySelector('#breakdown-context-name').textContent = selectedContextName;
+            const breakdownWrapper = pageElement.querySelector('#calculation-breakdown-display');
+            const breakdownItems = getDurationBreakdown(bedrooms, selectedProducts, selectedRuleset, numFloors);
+            breakdownWrapper.innerHTML = breakdownItems.map(item => `
+                <div class="flex justify-between">
+                    <span class="text-gray-600">${item.name}:</span>
+                    <span class="font-medium text-gray-900">+${item.time} mins</span>
+                </div>
+            `).join('');
+
+            // 8. Show the results
+            placeholder.classList.add('hidden');
+            resultsWrapper.classList.remove('hidden');
+        }
+
+        /**
+         * NEW: Helper function to get the line-by-line breakdown for the calculator
+         */
+        function getDurationBreakdown(bedrooms, products, ruleset, numFloors) {
+            let breakdown = [];
+            const floorSurcharge = ruleset.floorSurcharge || 5;
+
+            products.forEach(product => {
+                const productId = product.id;
+                
+                if (ruleset.products.hasOwnProperty(productId)) {
+                    const rules = ruleset.products[productId];
+                    const rule = rules.sort((a, b) => a.maxBeds - b.maxBeds)
+                                    .find(r => bedrooms <= r.maxBeds);
+                    
+                    if (rule) {
+                        breakdown.push({ name: product.name, time: rule.time });
+                    }
+
+                    // Add 3D Showcase surcharge to breakdown
+                    if (productId === 'showcase_3d') {
+                        if (numFloors > 1) {
+                            const surcharge = (numFloors - 1) * floorSurcharge;
+                            if (surcharge > 0) {
+                                breakdown.push({ name: `Floor Surcharge (${numFloors-1} extra)`, time: surcharge });
+                            }
+                        }
+                    }
+                }
+            });
+
+            if (breakdown.length === 0) {
+                breakdown.push({ name: 'No products selected', time: 0 });
+            }
+
+            return breakdown;
         }
         
         /**
