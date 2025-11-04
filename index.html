@@ -224,6 +224,12 @@
                                 <input type="number" id="bedrooms" min="1" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green" placeholder="e.g., 3">
                             </div>
 
+                            <!-- NEW: Number of Floors (for 3D Showcase) -->
+                            <div class="floors-input-wrapper hidden">
+                                <label for="num-floors" class="block text-sm font-medium text-gray-700">Number of Floors (for 3D)</label>
+                                <input type="number" name="num-floors" min="1" value="1" class="num-floors-input mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green">
+                            </div>
+
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Products</label>
                                 <div class="mt-2 space-y-2 h-32 overflow-y-auto border p-2 rounded-md" id="products-list">
@@ -305,95 +311,56 @@
             cat1: {
                 name: "Cat 1 (New Staff)",
                 travelBuffer: 15,
-                coreProducts: [
-                    { id: 'standard_photos', maxBeds: 3, time: 40 },
-                    { id: 'standard_photos', maxBeds: 5, time: 55 },
-                    { id: 'standard_photos', maxBeds: Infinity, time: 70 },
-                    { id: 'premium_photos', maxBeds: 3, time: 80 },
-                    { id: 'premium_photos', maxBeds: 5, time: 95 },
-                    { id: 'premium_photos', maxBeds: Infinity, time: 110 },
-                    { id: 'floorplan', maxBeds: 3, time: 40 }, // Assuming same as photos
-                    { id: 'floorplan', maxBeds: 5, time: 55 },
-                    { id: 'floorplan', maxBeds: Infinity, time: 70 },
-                    { id: 'epc', maxBeds: 3, time: 40 }, // Assuming same as photos
-                    { id: 'epc', maxBeds: 5, time: 55 },
-                    { id: 'epc', maxBeds: Infinity, time: 70 },
-                    { id: '3d_showcase', maxBeds: 2, time: 30 },
-                    { id: '3d_showcase', maxBeds: 4, time: 45 },
-                    { id: '3d_showcase', maxBeds: 6, time: 60 },
-                    { id: '3d_showcase', maxBeds: 7, time: 75 },
-                    { id: '3d_showcase', maxBeds: 8, time: 90 },
-                    { id: '3d_showcase', maxBeds: 9, time: 105 },
-                    { id: '3d_showcase', maxBeds: 10, time: 120 },
-                    { id: '3d_showcase', maxBeds: 11, time: 135 },
-                    { id: '3d_showcase', maxBeds: 12, time: 150 },
-                ],
-                addOnProducts: [
-                    { maxBeds: 5, time: 20 },
-                    { maxBeds: Infinity, time: 35 }
-                ]
+                floorSurcharge: 10, // Surcharge per floor for 3D Showcase
+                products: {
+                    'standard_photos': [ { maxBeds: 2, time: 45 }, { maxBeds: 4, time: 55 }, { maxBeds: 6, time: 65 }, { maxBeds: Infinity, time: 75 } ],
+                    'premium_photos': [ { maxBeds: 2, time: 60 }, { maxBeds: 4, time: 70 }, { maxBeds: 6, time: 80 }, { maxBeds: Infinity, time: 90 } ],
+                    'floorplan': [ { maxBeds: 2, time: 40 }, { maxBeds: 4, time: 50 }, { maxBeds: 6, time: 60 }, { maxBeds: Infinity, time: 70 } ],
+                    'epc': [ { maxBeds: 2, time: 40 }, { maxBeds: 4, time: 50 }, { maxBeds: 6, time: 60 }, { maxBeds: Infinity, time: 70 } ],
+                    'video': [ { maxBeds: 2, time: 25 }, { maxBeds: 4, time: 25 }, { maxBeds: 6, time: 35 }, { maxBeds: Infinity, time: 35 } ],
+                    'drone_photos': [ { maxBeds: 2, time: 30 }, { maxBeds: 4, time: 30 }, { maxBeds: 6, time: 40 }, { maxBeds: Infinity, time: 40 } ],
+                    'drone_video': [ { maxBeds: 2, time: 35 }, { maxBeds: 4, time: 35 }, { maxBeds: 6, time: 45 }, { maxBeds: Infinity, time: 45 } ],
+                    'showcase_3d': [ { maxBeds: 2, time: 45 }, { maxBeds: 4, time: 55 }, { maxBeds: 6, time: 65 }, { maxBeds: Infinity, time: 75 } ],
+                    'elevated_single': [ { maxBeds: 2, time: 20 }, { maxBeds: 4, time: 20 }, { maxBeds: 6, time: 20 }, { maxBeds: Infinity, time: 20 } ],
+                    'elevated_multi': [ { maxBeds: 2, time: 30 }, { maxBeds: 4, time: 30 }, { maxBeds: 6, time: 30 }, { maxBeds: Infinity, time: 30 } ],
+                    'video_presented': [ { maxBeds: 2, time: 55 }, { maxBeds: 4, time: 55 }, { maxBeds: 6, time: 65 }, { maxBeds: Infinity, time: 65 } ]
+                }
             },
             cat2: {
                 name: "Cat 2 (Mid-Range)",
                 travelBuffer: 10,
-                coreProducts: [
-                    { id: 'standard_photos', maxBeds: 3, time: 30 },
-                    { id: 'standard_photos', maxBeds: 5, time: 45 },
-                    { id: 'standard_photos', maxBeds: Infinity, time: 60 },
-                    { id: 'premium_photos', maxBeds: 3, time: 60 },
-                    { id: 'premium_photos', maxBeds: 5, time: 75 },
-                    { id: 'premium_photos', maxBeds: Infinity, time: 90 },
-                    { id: 'floorplan', maxBeds: 3, time: 30 }, // Assuming same as photos
-                    { id: 'floorplan', maxBeds: 5, time: 45 },
-                    { id: 'floorplan', maxBeds: Infinity, time: 60 },
-                    { id: 'epc', maxBeds: 3, time: 30 }, // Assuming same as photos
-                    { id: 'epc', maxBeds: 5, time: 45 },
-                    { id: 'epc', maxBeds: Infinity, time: 60 },
-                    { id: '3d_showcase', maxBeds: 2, time: 25 },
-                    { id: '3d_showcase', maxBeds: 4, time: 40 },
-                    { id: '3d_showcase', maxBeds: 6, time: 55 },
-                    { id: '3d_showcase', maxBeds: 7, time: 70 },
-                    { id: '3d_showcase', maxBeds: 8, time: 85 },
-                    { id: '3d_showcase', maxBeds: 9, time: 100 },
-                    { id: '3d_showcase', maxBeds: 10, time: 115 },
-                    { id: '3d_showcase', maxBeds: 11, time: 130 },
-                    { id: '3d_showcase', maxBeds: 12, time: 145 },
-                ],
-                addOnProducts: [
-                    { maxBeds: 5, time: 15 },
-                    { maxBeds: Infinity, time: 30 }
-                ]
+                floorSurcharge: 5, // Surcharge per floor for 3D Showcase
+                products: {
+                    'standard_photos': [ { maxBeds: 2, time: 30 }, { maxBeds: 4, time: 40 }, { maxBeds: 6, time: 50 }, { maxBeds: Infinity, time: 60 } ],
+                    'premium_photos': [ { maxBeds: 2, time: 45 }, { maxBeds: 4, time: 55 }, { maxBeds: 6, time: 65 }, { maxBeds: Infinity, time: 75 } ],
+                    'floorplan': [ { maxBeds: 2, time: 30 }, { maxBeds: 4, time: 40 }, { maxBeds: 6, time: 50 }, { maxBeds: Infinity, time: 60 } ],
+                    'epc': [ { maxBeds: 2, time: 30 }, { maxBeds: 4, time: 40 }, { maxBeds: 6, time: 50 }, { maxBeds: Infinity, time: 60 } ],
+                    'video': [ { maxBeds: 2, time: 20 }, { maxBeds: 4, time: 20 }, { maxBeds: 6, time: 30 }, { maxBeds: Infinity, time: 30 } ],
+                    'drone_photos': [ { maxBeds: 2, time: 25 }, { maxBeds: 4, time: 25 }, { maxBeds: 6, time: 30 }, { maxBeds: Infinity, time: 30 } ],
+                    'drone_video': [ { maxBeds: 2, time: 30 }, { maxBeds: 4, time: 30 }, { maxBeds: 6, time: 35 }, { maxBeds: Infinity, time: 35 } ],
+                    'showcase_3d': [ { maxBeds: 2, time: 40 }, { maxBeds: 4, time: 50 }, { maxBeds: 6, time: 60 }, { maxBeds: Infinity, time: 70 } ],
+                    'elevated_single': [ { maxBeds: 2, time: 15 }, { maxBeds: 4, time: 15 }, { maxBeds: 6, time: 15 }, { maxBeds: Infinity, time: 15 } ],
+                    'elevated_multi': [ { maxBeds: 2, time: 25 }, { maxBeds: 4, time: 25 }, { maxBeds: 6, time: 25 }, { maxBeds: Infinity, time: 25 } ],
+                    'video_presented': [ { maxBeds: 2, time: 45 }, { maxBeds: 4, time: 45 }, { maxBeds: 6, time: 55 }, { maxBeds: Infinity, time: 55 } ]
+                }
             },
             cat3: {
                 name: "Cat 3 (Experienced)",
                 travelBuffer: 10,
-                coreProducts: [
-                    { id: 'standard_photos', maxBeds: 3, time: 25 },
-                    { id: 'standard_photos', maxBeds: 5, time: 40 },
-                    { id: 'standard_photos', maxBeds: Infinity, time: 55 },
-                    { id: 'premium_photos', maxBeds: 3, time: 45 },
-                    { id: 'premium_photos', maxBeds: 5, time: 60 },
-                    { id: 'premium_photos', maxBeds: Infinity, time: 75 },
-                    { id: 'floorplan', maxBeds: 3, time: 25 }, // Assuming same as photos
-                    { id: 'floorplan', maxBeds: 5, time: 40 },
-                    { id: 'floorplan', maxBeds: Infinity, time: 55 },
-                    { id: 'epc', maxBeds: 3, time: 25 }, // Assuming same as photos
-                    { id: 'epc', maxBeds: 5, time: 40 },
-                    { id: 'epc', maxBeds: Infinity, time: 55 },
-                    { id: '3d_showcase', maxBeds: 2, time: 25 },
-                    { id: '3d_showcase', maxBeds: 4, time: 40 },
-                    { id: '3d_showcase', maxBeds: 6, time: 55 },
-                    { id: '3d_showcase', maxBeds: 7, time: 70 },
-                    { id: '3d_showcase', maxBeds: 8, time: 85 },
-                    { id: '3d_showcase', maxBeds: 9, time: 100 },
-                    { id: '3d_showcase', maxBeds: 10, time: 115 },
-                    { id: '3d_showcase', maxBeds: 11, time: 130 },
-                    { id: '3d_showcase', maxBeds: 12, time: 145 },
-                ],
-                addOnProducts: [
-                    { maxBeds: 5, time: 10 },
-                    { maxBeds: Infinity, time: 25 }
-                ]
+                floorSurcharge: 5, // Surcharge per floor for 3D Showcase
+                products: {
+                    'standard_photos': [ { maxBeds: 2, time: 25 }, { maxBeds: 4, time: 35 }, { maxBeds: 6, time: 45 }, { maxBeds: Infinity, time: 55 } ],
+                    'premium_photos': [ { maxBeds: 2, time: 30 }, { maxBeds: 4, time: 40 }, { maxBeds: 6, time: 50 }, { maxBeds: Infinity, time: 60 } ],
+                    'floorplan': [ { maxBeds: 2, time: 20 }, { maxBeds: 4, time: 30 }, { maxBeds: 6, time: 40 }, { maxBeds: Infinity, time: 50 } ],
+                    'epc': [ { maxBeds: 2, time: 20 }, { maxBeds: 4, time: 30 }, { maxBeds: 6, time: 40 }, { maxBeds: Infinity, time: 50 } ],
+                    'video': [ { maxBeds: 2, time: 15 }, { maxBeds: 4, time: 15 }, { maxBeds: 6, time: 25 }, { maxBeds: Infinity, time: 25 } ],
+                    'drone_photos': [ { maxBeds: 2, time: 20 }, { maxBeds: 4, time: 20 }, { maxBeds: 6, time: 25 }, { maxBeds: Infinity, time: 25 } ],
+                    'drone_video': [ { maxBeds: 2, time: 25 }, { maxBeds: 4, time: 25 }, { maxBeds: 6, time: 30 }, { maxBeds: Infinity, time: 30 } ],
+                    'showcase_3d': [ { maxBeds: 2, time: 35 }, { maxBeds: 4, time: 45 }, { maxBeds: 6, time: 55 }, { maxBeds: Infinity, time: 65 } ],
+                    'elevated_single': [ { maxBeds: 2, time: 10 }, { maxBeds: 4, time: 10 }, { maxBeds: 6, time: 10 }, { maxBeds: Infinity, time: 10 } ],
+                    'elevated_multi': [ { maxBeds: 2, time: 20 }, { maxBeds: 4, time: 20 }, { maxBeds: 6, time: 20 }, { maxBeds: Infinity, time: 20 } ],
+                    'video_presented': [ { maxBeds: 2, time: 35 }, { maxBeds: 4, time: 35 }, { maxBeds: 6, time: 45 }, { maxBeds: Infinity, time: 45 } ]
+                }
             }
         };
 
@@ -407,14 +374,17 @@
         
         // List of all products offered
         const productList = [
-            { id: 'standard_photos', name: 'Standard Photos', type: 'core' },
-            { id: 'premium_photos', name: 'Premium Photography', type: 'core' },
-            { id: 'floorplan', name: 'Floorplan', type: 'core' },
-            { id: 'epc', name: 'EPC', type: 'core' },
-            { id: '3d_showcase', name: '3D Showcase', type: 'core' },
-            { id: 'drone', name: 'Drone', type: 'add-on' },
-            { id: 'elevated', name: 'Elevated', type: 'add-on' },
-            { id: 'video', name: 'Video', type: 'add-on' }
+            { id: 'standard_photos', name: 'Standard Photography' },
+            { id: 'premium_photos', name: 'Premium Photography' },
+            { id: 'floorplan', name: 'Floorplan' },
+            { id: 'epc', name: 'EPC' },
+            { id: 'video', name: 'Property Video' },
+            { id: 'drone_photos', name: 'Drone Photography' },
+            { id: 'drone_video', name: 'Drone Video' },
+            { id: 'showcase_3d', name: '3D Showcase' },
+            { id:'elevated_single', name: 'Elevated (Single)' },
+            { id:'elevated_multi', name: 'Elevated (Multi)' },
+            { id: 'video_presented', name: 'Property Video (Presented)' }
         ];
 
         // --- GLOBAL STATE ---
@@ -489,6 +459,7 @@
             currentPageId = newPageId;
             populateMainTabs();
             switchSheet(newPageId);
+            toggleFloorInput(diaryPageClone); // Ensure floors input is hidden on new page
         }
 
         function closeDiaryPage(pageId) {
@@ -596,76 +567,80 @@
             const container = document.getElementById('key-categories-container');
             container.innerHTML = ''; // Clear existing
             
+            // Helper to find a product's name from its ID
+            const getProductName = (id) => productList.find(p => p.id === id)?.name || id;
+
             for (const catId in timingCategories) {
-                if (timingCategories.hasOwnProperty(catId)) {
-                    const category = timingCategories[catId];
-                    const categoryBlock = document.createElement('div');
-                    categoryBlock.className = 'border border-gray-200 rounded-lg p-4';
-                    
-                    let html = `<h2 class="text-xl font-bold text-custom-green mb-4">${category.name}</h2>`;
-                    
-                    // General Table
-                    html += `
-                        <h3 class="text-lg font-semibold text-gray-700 mb-3 border-b pb-2">General</h3>
-                        <div class="overflow-x-auto mb-6">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time (minutes)</th></tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    <tr><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Travel Time Buffer</td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${category.travelBuffer}</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    `;
-                    
-                    // Core Products Table
-                    html += `
-                        <h3 class="text-lg font-semibold text-gray-700 mb-3 border-b pb-2">Core Products</h3>
-                        <div class="overflow-x-auto mb-6">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Property Size (Bedrooms)</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time *per Product* (minutes)</th></tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                    `;
-                    let coreRuleCount = 0;
-                    category.coreProducts.forEach(rule => {
-                         html += `
+                const category = timingCategories[catId];
+                const categoryBlock = document.createElement('div');
+                categoryBlock.className = 'border border-gray-200 rounded-lg p-6';
+                
+                let html = `<h2 class="text-xl font-bold text-custom-green mb-4">${category.name}</h2>`;
+                
+                // General Table
+                html += `
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">General</h3>
+                    <table class="min-w-full divide-y divide-gray-200 mb-6">
+                        <tbody class="bg-white divide-y divide-gray-200">
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${rule.maxBeds === Infinity ? '6+ Beds' : (coreRuleCount === 0 ? `Up to ${rule.maxBeds} Beds` : `${category.coreProducts[coreRuleCount-1].maxBeds + 1} - ${rule.maxBeds} Beds`)}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${rule.time}</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">Travel Time Buffer</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">${category.travelBuffer} mins</td>
                             </tr>
-                        `;
-                        coreRuleCount++;
-                    });
-                    html += `</tbody></table></div>`;
-                    
-                    // Add-on Products Table
-                    html += `
-                        <h3 class="text-lg font-semibold text-gray-700 mb-3 border-b pb-2">Add-on Products</h3>
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Property Size (Bedrooms)</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time *per Product* (minutes)</th></tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                    `;
-                    let addOnRuleCount = 0;
-                    category.addOnProducts.forEach(rule => {
-                        html += `
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${rule.maxBeds === Infinity ? '6+ Beds' : (addOnRuleCount === 0 ? `Up to ${rule.maxBeds} Beds` : `${category.addOnProducts[addOnRuleCount-1].maxBeds + 1} - ${rule.maxBeds} Beds`)}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${rule.time}</td>
-                            </tr>
-                        `;
-                        addOnRuleCount++;
-                    });
-                    html += `</tbody></table></div>`;
-                    
-                    categoryBlock.innerHTML = html;
-                    container.appendChild(categoryBlock);
-                }
+                        </tbody>
+                    </table>
+                `;
+                
+                // Products Breakdown
+                html += `<h3 class="text-lg font-semibold text-gray-700 mb-4 border-t pt-4">Product Timings</h3>`;
+                html += `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
+                
+                // Loop through each product ID in the productList to maintain order
+                productList.forEach(product => {
+                    const productId = product.id;
+                    if (category.products.hasOwnProperty(productId)) {
+                        const rules = category.products[productId];
+                        const productName = product.name;
+                        
+                        html += `<div class="border border-gray-200 rounded-lg p-4 bg-gray-50">`;
+                        html += `<h4 class="font-semibold text-gray-800 mb-3">${productName}</h4>`;
+                        html += `<ul class="list-none space-y-2">`;
+                        
+                        let lastBeds = 0;
+                        rules.forEach(rule => {
+                            let bedRange = '';
+                            if (rule.maxBeds === Infinity) {
+                                // This is the "translation" logic we discussed
+                                bedRange = `${lastBeds + 1}+ beds`;
+                            } else {
+                                bedRange = `${lastBeds + 1} - ${rule.maxBeds} beds`;
+                            }
+                            // Handle 0-bed (e.g., 1-2 beds)
+                            if (lastBeds === 0) {
+                                bedRange = `Up to ${rule.maxBeds} beds`;
+                            }
+
+                            lastBeds = rule.maxBeds;
+                            
+                            html += `<li class="flex justify-between text-sm">
+                                         <span class="text-gray-600">${bedRange}:</span>
+                                         <span class="font-medium text-gray-900">${rule.time} mins</span>
+                                     </li>`;
+                        });
+
+                        // Add 3D Showcase floor logic note
+                        if (productId === 'showcase_3d') {
+                             html += `<li class="text-xs text-gray-500 italic pt-2 border-t mt-2">
+                                         +${category.floorSurcharge} mins per additional floor
+                                     </li>`;
+                        }
+                        
+                        html += `</ul></div>`;
+                    }
+                });
+                
+                html += `</div>`; // Close grid
+                categoryBlock.innerHTML = html;
+                container.appendChild(categoryBlock);
             }
         }
         
@@ -676,23 +651,26 @@
             const listDiv = pageElement.querySelector('#products-list');
             const pageId = pageElement.id;
             listDiv.innerHTML = '';
+            
             productList.forEach(product => {
-                const productId = `${product.id}-${pageId}`;
+                const productId = `${product.id}-${pageId}`; // Unique ID for the checkbox
                 const item = `
                     <div class="flex items-center">
-                        <input id="${productId}" name="product" type="checkbox" value="${product.id}" data-type="${product.type}" class="h-4 w-4 text-custom-green border-gray-300 rounded focus:ring-custom-green">
+                        <input id="${productId}" name="product" type="checkbox" value="${product.id}" data-product-id="${product.id}" class="h-4 w-4 text-custom-green border-gray-300 rounded focus:ring-custom-green product-checkbox">
                         <label for="${productId}" class="ml-3 block text-sm text-gray-700">${product.name}</label>
                     </div>
                 `;
                 listDiv.innerHTML += item;
             });
 
-            const standardPhotosCheckbox = pageElement.querySelector('#standard_photos-' + pageId);
-            const premiumPhotosCheckbox = pageElement.querySelector('#premium_photos-' + pageId);
+            // --- MUTUAL EXCLUSION LOGIC (Standard vs. Premium) ---
+            const standardPhotosCheckbox = pageElement.querySelector(`input[data-product-id="standard_photos"]`);
+            const premiumPhotosCheckbox = pageElement.querySelector(`input[data-product-id="premium_photos"]`);
 
             standardPhotosCheckbox.addEventListener('change', () => {
                 if (standardPhotosCheckbox.checked) {
                     premiumPhotosCheckbox.disabled = true;
+                    premiumPhotosCheckbox.checked = false; // Uncheck it
                 } else {
                     premiumPhotosCheckbox.disabled = false;
                 }
@@ -701,10 +679,33 @@
             premiumPhotosCheckbox.addEventListener('change', () => {
                 if (premiumPhotosCheckbox.checked) {
                     standardPhotosCheckbox.disabled = true;
+                    standardPhotosCheckbox.checked = false; // Uncheck it
                 } else {
                     standardPhotosCheckbox.disabled = false;
                 }
             });
+
+            // --- NEW: 3D SHOWCASE FLOOR INPUT LOGIC ---
+            // Attach listener to all checkboxes to check for the 3D showcase
+            pageElement.querySelectorAll('.product-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', () => toggleFloorInput(pageElement));
+            });
+        }
+
+        /**
+         * NEW: Show/Hide the "Number of Floors" input based on 3D Showcase
+         */
+        function toggleFloorInput(pageElement) {
+            // Find the elements *within the specific page*
+            const showcaseCheckbox = pageElement.querySelector(`input[data-product-id="showcase_3d"]`);
+            const floorsWrapper = pageElement.querySelector('.floors-input-wrapper');
+            
+            if (showcaseCheckbox && showcaseCheckbox.checked) {
+                floorsWrapper.classList.remove('hidden');
+            } else {
+                floorsWrapper.classList.add('hidden');
+                pageElement.querySelector('.num-floors-input').value = 1; // Reset to 1 when hidden
+            }
         }
 
         /**
@@ -795,7 +796,10 @@
             const currentSchedule = appointments[page.photographerId];
             const categoryId = photographerProfiles[page.photographerId].category;
             const ruleset = timingCategories[categoryId];
-            const duration = calculateDuration(bedrooms, selectedProducts, ruleset);
+
+            // Get the new "Number of Floors" value from the correct page element
+            const numFloors = parseInt(pageElement.querySelector('.num-floors-input').value) || 1;
+            const duration = calculateDuration(bedrooms, selectedProducts, ruleset, numFloors);
 
             // 4. --- Core Calculation Engine ---
             
@@ -926,22 +930,35 @@
         /**
          * Calculate the total on-site duration based on bedrooms and products
          */
-        function calculateDuration(bedrooms, products, ruleset) {
+        function calculateDuration(bedrooms, products, ruleset, numFloors) {
             let totalDuration = 0;
-            const addOnRule = ruleset.addOnProducts.find(rule => bedrooms <= rule.maxBeds);
-            const addOnProductTime = addOnRule ? addOnRule.time : 0;
+            const floorSurcharge = ruleset.floorSurcharge || 5; // Default to 5 mins if not specified
 
             products.forEach(product => {
-                if (product.type === 'core') {
-                    const coreRule = ruleset.coreProducts
-                        .filter(rule => rule.id === product.id)
-                        .sort((a, b) => a.maxBeds - b.maxBeds)
-                        .find(rule => bedrooms <= rule.maxBeds);
-                    if (coreRule) {
-                        totalDuration += coreRule.time;
+                const productId = product.id;
+                
+                // Check if this product has rules defined in the category
+                if (ruleset.products.hasOwnProperty(productId)) {
+                    const rules = ruleset.products[productId];
+                    
+                    // Find the matching rule for the bedroom size
+                    // We sort the rules by maxBeds to ensure we get the right one
+                    const rule = rules.sort((a, b) => a.maxBeds - b.maxBeds)
+                                    .find(r => bedrooms <= r.maxBeds);
+                    
+                    if (rule) {
+                        totalDuration += rule.time;
                     }
-                } else if (product.type === 'add-on') {
-                    totalDuration += addOnProductTime;
+
+                    // --- NEW 3D SHOWCASE LOGIC ---
+                    // If this is the 3D Showcase, check for the floor surcharge
+                    if (productId === 'showcase_3d') {
+                        if (numFloors > 1) {
+                            // Add surcharge for each floor *after* the first
+                            const surcharge = (numFloors - 1) * floorSurcharge; 
+                            totalDuration += surcharge;
+                        }
+                    }
                 }
             });
 
