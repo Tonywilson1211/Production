@@ -3,16 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photography Diary Manager (PoC v0.9)</title>
+    <title>Photography Diary Manager (PoC v0.9.1)</title>
     
-    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Load Inter font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Load Heroicons for icons -->
-    <script type="module" src="https://unpkg.com/heroicons@2.1.1/24/outline/index.js"></script>
     
     <style>
         /* Use Inter as the default font */
@@ -57,34 +52,36 @@
         .text-custom-green { color: #93be1e; }
         .focus\:ring-custom-green:focus { --tw-ring-color: #93be1e; }
         
-        /* NEW: Custom color for the finish window */
+        /* Custom color for the finish window */
         .text-custom-finish { color: #c4d787; }
 
+        /* Style for the '+' button when disabled */
+        #add-new-diary-tab-button:disabled {
+            background-color: #9ca3af; /* gray-400 */
+            cursor: not-allowed;
+        }
+        #add-new-diary-tab-button:disabled:hover {
+            background-color: #9ca3af; /* gray-400 */
+        }
 
     </style>
 </head>
 <body class="flex flex-col h-screen bg-gray-100">
 
-    <!-- Header with Logo -->
     <header class="bg-white shadow-md p-4 flex items-center justify-between">
         <div class="flex items-center">
-            <!-- Logo Placeholder -->
             <div class="h-8 w-8 bg-custom-green rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">
                 <img src="https://placehold.co/32x32/93be1e/ffffff/png?text=DBA" alt="Company Logo" class="h-8 w-8 rounded-full">
             </div>
             <h1 class="text-xl font-semibold text-gray-800">Diary Booking Assistant</h1>
         </div>
-        <!-- You can add other header elements here if needed -->
     </header>
 
-    <!-- Main Content Area -->
     <main class="flex-grow p-4 md:p-8 overflow-auto">
         
-        <!-- Page 1: Staff Hub (New Mockup Page) -->
         <div id="page-staff-hub" class="sheet-content bg-white p-6 rounded-lg shadow-md">
             <h1 class="text-2xl font-bold text-gray-800 mb-4">Team & Staff Hub</h1>
             
-            <!-- Team Selection (Mockup) -->
             <div class="mb-6">
                 <label for="team-select" class="block text-sm font-medium text-gray-700">Select Team (Area)</label>
                 <select id="team-select" class="mt-1 block w-full md:w-1/3 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green">
@@ -94,7 +91,6 @@
                 </select>
             </div>
 
-            <!-- Staff List (Mockup) -->
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold text-gray-700">Staff List: Orbital - Area 2</h2>
                 <button class="px-4 py-2 bg-custom-green text-white text-sm font-medium rounded-md shadow-sm hover:bg-custom-green-dark" disabled>Add New Staff (Full v1.0 Feature)</button>
@@ -169,54 +165,43 @@
         </div>
 
 
-        <!-- Page 2: Key -->
         <div id="page-key" class="sheet-content hidden bg-white p-6 rounded-lg shadow-md">
             <h1 class="text-2xl font-bold text-gray-800 mb-6">Timing Assumptions Key</h1>
             <p class="text-sm text-gray-600 mb-6">This shows the rules for the "Standard" categories. The v1.0 app will allow managers to create custom categories.</p>
             <div id="key-categories-container" class="space-y-10">
-                <!-- Category details will be injected by JS -->
-            </div>
+                </div>
         </div>
 
-        <!-- Page 4: Duration Calculator (NEW) -->
         <div id="page-calculator" class="sheet-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
-                <!-- Input Form -->
                 <div class="lg:col-span-1 bg-white p-6 rounded-lg shadow-md">
                     <h2 class="text-xl font-bold text-gray-800 mb-6">Duration Calculator</h2>
                     <p class="text-sm text-gray-600 mb-4">A quick-lookup tool to estimate on-site time for a job.</p>
                     
                     <form id="calculator-form" class="space-y-4">
-                        <!-- Context Dropdown -->
                         <div>
                             <label for="context-select" class="block text-sm font-medium text-gray-700">Select Context</label>
                             <select id="context-select" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green">
-                                <!-- Options will be injected by JS -->
-                            </select>
+                                </select>
                         </div>
                         
-                        <!-- Bedrooms -->
                         <div>
                             <label for="calc-bedrooms" class="block text-sm font-medium text-gray-700">Property Size (Bedrooms)</label>
                             <input type="number" id="calc-bedrooms" min="1" value="3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green" placeholder="e.g., 3">
                         </div>
 
-                        <!-- Floors -->
                         <div id="calc-floors-wrapper" class="floors-input-wrapper hidden">
                             <label for="calc-num-floors" class="block text-sm font-medium text-gray-700">Number of Floors (for 3D)</label>
                             <input type="number" id="calc-num-floors" name="num-floors" min="1" value="1" class="num-floors-input mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green">
                         </div>
                         
-                        <!-- Products -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Products</label>
                             <div class="mt-2 space-y-2 h-48 overflow-y-auto border p-2 rounded-md" id="calc-products-list">
-                                <!-- Checkboxes will be injected by JS -->
-                            </div>
+                                </div>
                         </div>
 
-                        <!-- Calculate Button -->
                         <div class="pt-4">
                             <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-custom-green hover:bg-custom-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green">
                                 Calculate Duration
@@ -225,32 +210,26 @@
                     </form>
                 </div>
 
-                <!-- Results Panel -->
                 <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
                     <h2 class="text-xl font-bold text-gray-800 mb-6">Calculation Results</h2>
                     <div id="duration-results-wrapper" class="hidden space-y-6">
                         
-                        <!-- Total Time Display -->
                         <div class="text-center bg-custom-green text-white p-6 rounded-lg shadow">
                             <label class="block text-sm font-medium uppercase tracking-wider">Total On-Site Time (for <span id="selected-context-name">Cat 2</span>)</label>
                             <p id="total-time-display" class="text-5xl font-bold">1h 20m</p>
                             <p id="total-time-minutes" class="text-lg">(80 minutes)</p>
                         </div>
                         
-                        <!-- Category Comparison -->
                         <div>
                             <h3 class="text-lg font-semibold text-gray-700 mb-3">1. Category Comparison</h3>
                             <div id="category-comparison-display" class="space-y-2">
-                                <!-- Comparison rows will be injected by JS -->
-                            </div>
+                                </div>
                         </div>
                         
-                        <!-- Calculation Breakdown -->
                         <div>
                             <h3 class="text-lg font-semibold text-gray-700 mb-3">2. Calculation Breakdown (<span id="breakdown-context-name">Cat 2</span>)</h3>
                             <div id="calculation-breakdown-display" class="text-sm space-y-2 p-4 bg-gray-50 rounded-md border">
-                                <!-- Breakdown items will be injected by JS -->
-                            </div>
+                                </div>
                         </div>
                     </div>
                     <p id="duration-placeholder" class="text-gray-500">Please select your inputs and click "Calculate" to see the results.</p>
@@ -258,27 +237,22 @@
             </div>
         </div>
 
-        <!-- Page 3: Photographer Calculator -->
         <div id="page-diary" class="sheet-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
-                <!-- Input Form -->
                 <div class="lg:col-span-1 bg-white p-6 rounded-lg shadow-md">
                     <h2 class="text-xl font-bold text-gray-800 mb-6">New Appointment</h2>
                     
-                    <!-- NEW: Photographer Selection Dropdown -->
                     <div class="mb-4">
                         <label for="photographer-select" class="block text-sm font-medium text-gray-700">1. Select Photographer</label>
                         <select id="photographer-select" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green">
                             <option value="" disabled selected>Select a photographer...</option>
-                            <!-- Options will be injected by JS -->
-                        </select>
+                            </select>
                         <p id="photographer-category-display" class="mt-1 text-sm text-custom-green font-medium"></p>
                     </div>
 
                     <form id="appointment-form" class="space-y-4">
                         <div class="opacity-50" id="form-fields-wrapper">
-                            <!-- Optional Reference Fields -->
                             <div class="p-4 bg-gray-50 rounded-md border mb-4">
                                 <p class="text-sm font-medium text-gray-700 mb-2">Optional (v1.0 Reference)</p>
                                 <div class="space-y-2">
@@ -288,7 +262,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Main Calculator Fields -->
                             <div>
                                 <label for="first-job-arrival-time" class="block text-sm font-medium text-gray-700">First Job Arrival (8am-5pm)</label>
                                 <input type="time" id="first-job-arrival-time" value="09:00" min="08:00" max="17:00" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green">
@@ -304,7 +277,6 @@
                                 <input type="number" id="bedrooms" min="1" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green" placeholder="e.g., 3">
                             </div>
 
-                            <!-- NEW: Number of Floors (for 3D Showcase) -->
                             <div class="floors-input-wrapper hidden">
                                 <label for="num-floors" class="block text-sm font-medium text-gray-700">Number of Floors (for 3D)</label>
                                 <input type="number" name="num-floors" min="1" value="1" class="num-floors-input mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green">
@@ -313,11 +285,9 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Products</label>
                                 <div class="mt-2 space-y-2 h-32 overflow-y-auto border p-2 rounded-md" id="products-list">
-                                    <!-- Checkboxes will be injected by JS -->
-                                </div>
+                                    </div>
                             </div>
 
-                            <!-- v1.0 Features (Mocked) -->
                             <div class="space-y-2 pt-2">
                                 <label for="additional-time" class="block text-sm font-medium text-gray-700">Additional Time (Full v1.0 Feature)</label>
                                 <input type="number" id="additional-time" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" placeholder="e.g., 15 mins (disabled)" disabled>
@@ -340,7 +310,6 @@
                     </form>
                 </div>
 
-                <!-- Schedule Table -->
                 <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
                     <h2 id="schedule-title" class="text-xl font-bold text-gray-800 mb-6">Calculated Schedule</h2>
                     <div class="overflow-x-auto">
@@ -348,11 +317,9 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Job #</th>
-                                    <!-- Optional v1.0 Reference Columns -->
                                     <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order Ref</th>
                                     <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
                                     <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Postcode</th>
-                                    <!-- Core Calculator Columns -->
                                     <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Travel</th>
                                     <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Buffer</th>
                                     <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Arrival (Window)</th>
@@ -364,8 +331,7 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200" id="schedule-body">
-                                <!-- Schedule rows will be injected by JS -->
-                            </tbody>
+                                </tbody>
                         </table>
                     </div>
                 </div>
@@ -374,19 +340,17 @@
 
     </main>
 
-    <!-- Tab Navigation -->
-    <!-- FIX: Removed overflow-x-auto to prevent tab bar from shrinking -->
     <nav id="tab-navigation" class="flex border-t border-gray-300 bg-white shadow-inner">
-        <!-- Tabs will be injected by JS -->
-    </nav>
+        </nav>
 
     <script>
         // --- DATA & ASSUMPTIONS ---
 
         // 30-minute arrival window buffer
         const ARRIVAL_WINDOW_BUFFER = 30;
+        // NEW: Max number of diary tabs
+        const MAX_DIARY_PAGES = 4;
 
-        // Categories. Cat 1 is new (slower), Cat 2 is standard, Cat 3 is fast.
         const timingCategories = {
             cat1: {
                 name: "Cat 1 (New Staff)",
@@ -429,7 +393,7 @@
                 travelBuffer: 10,
                 floorSurcharge: 5, // Surcharge per floor for 3D Showcase
                 products: {
-                    'standard_photos': [ { maxBeds: 2, time: 25 }, { maxBeds: 4, time: 35 }, { maxBeds: 6, time: 45 }, { maxBeds: Infinity, time: 55 } ],
+                    'standard_photos': [ { maxBeds: 2, time: 20 }, { maxBeds: 4, time: 30 }, { maxBeds: 6, time: 40 }, { maxBeds: Infinity, time: 50 } ],
                     'premium_photos': [ { maxBeds: 2, time: 30 }, { maxBeds: 4, time: 40 }, { maxBeds: 6, time: 50 }, { maxBeds: Infinity, time: 60 } ],
                     'floorplan': [ { maxBeds: 2, time: 20 }, { maxBeds: 4, time: 30 }, { maxBeds: 6, time: 40 }, { maxBeds: Infinity, time: 50 } ],
                     'epc': [ { maxBeds: 2, time: 20 }, { maxBeds: 4, time: 30 }, { maxBeds: 6, time: 40 }, { maxBeds: Infinity, time: 50 } ],
@@ -469,7 +433,10 @@
 
         // --- GLOBAL STATE ---
         
+        // BUG B (Ignored): This data state is shared by all tabs for the same photographer.
+        // This is OK for the mock-up, per user request.
         let appointments = {};
+        
         let diaryPages = []; // NEW: Array to hold diary page states
         let currentPageId = null; // NEW: To track the active page
 
@@ -486,16 +453,12 @@
                 }
             }
 
-            addNewDiaryPage(); // Add the first diary page
-            populateMainTabs();
+            // --- SIMPLIFIED INIT ---
+            // addNewDiaryPage creates the first page, populates it, and adds listeners
+            addNewDiaryPage(); 
+            
             populateKeySheet();
-            populateProductsList(document.getElementById('page-diary-0'));
-            populatePhotographerDropdown(document.getElementById('page-diary-0').querySelector('#photographer-select'));
-
-            document.getElementById('page-diary-0').querySelector('#appointment-form').addEventListener('submit', handleAddAppointment);
-            document.getElementById('page-diary-0').querySelector('#reset-schedule').addEventListener('click', resetSchedule);
-            document.getElementById('page-diary-0').querySelector('#photographer-select').addEventListener('change', selectPhotographer);
-
+            
             // Setup for new Duration Calculator page
             populateContextDropdown();
             populateCalcProductsList();
@@ -503,28 +466,44 @@
             document.getElementById('calculator-form').addEventListener('submit', handleCalculateDuration);
 
             // Show the 'Staff Hub' sheet by default
+            // addNewDiaryPage switches to the new page, so we switch back.
             switchSheet('page-staff-hub');
         }
 
+        /**
+         * NEW: Adds a new diary page, up to the max limit
+         */
         function addNewDiaryPage() {
+            // NEW: Check if we have reached the max number of diary pages
+            if (diaryPages.length >= MAX_DIARY_PAGES) {
+                showModal("Maximum number of diaries open");
+                return;
+            }
+
             const newPageId = `page-diary-${diaryPages.length}`;
             const newPage = {
                 id: newPageId,
                 photographerId: null,
-                name: "Diary Booking"
+                name: "Diary Booking" // NEW: Default name
             };
             diaryPages.push(newPage);
 
             const mainContent = document.querySelector('main');
+            // Clone the TEMPLATE page (which is always hidden)
             const diaryPageClone = document.getElementById('page-diary').cloneNode(true);
             diaryPageClone.id = newPageId;
-            diaryPageClone.classList.add('hidden');
+            // The template is hidden, but the clone should not be (switchSheet will hide it again)
+            diaryPageClone.classList.remove('hidden'); 
 
+            // Add a close button if this is not the first diary page
             if (diaryPages.length > 1) {
                 const closeButton = document.createElement('button');
-                closeButton.className = "absolute top-0 right-0 p-2 text-gray-500 hover:text-red-600";
+                closeButton.className = "absolute top-4 right-4 p-2 text-gray-400 hover:text-red-600";
                 closeButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>';
-                closeButton.addEventListener('click', () => closeDiaryPage(newPageId));
+                closeButton.onclick = (e) => { // Use onclick for simplicity on a clone
+                    e.stopPropagation();
+                    closeDiaryPage(newPageId);
+                };
                 
                 const scheduleTitle = diaryPageClone.querySelector('#schedule-title');
                 scheduleTitle.parentNode.style.position = 'relative';
@@ -533,40 +512,70 @@
 
             mainContent.appendChild(diaryPageClone);
 
+            // Setup the new page
             populateProductsList(diaryPageClone);
             const newPhotographerSelect = diaryPageClone.querySelector('#photographer-select');
             populatePhotographerDropdown(newPhotographerSelect);
+            
+            // Add listeners to the new page
             newPhotographerSelect.addEventListener('change', selectPhotographer);
-
             diaryPageClone.querySelector('#appointment-form').addEventListener('submit', handleAddAppointment);
             diaryPageClone.querySelector('#reset-schedule').addEventListener('click', resetSchedule);
-
-
-            currentPageId = newPageId;
-            populateMainTabs();
-            switchSheet(newPageId);
+            
             toggleFloorInput(diaryPageClone); // Ensure floors input is hidden on new page
+
+            // Update UI
+            currentPageId = newPageId;
+            populateMainTabs(); // This will now draw all tabs and update the '+' button
+            switchSheet(newPageId);
         }
 
+        /**
+         * NEW: Closes a diary page
+         */
         function closeDiaryPage(pageId) {
-            showModal("Are you sure you want to close this page?", () => {
+            // Only allow closing if there's more than one diary page
+            if (diaryPages.length <= 1) {
+                showModal("You cannot close the last diary page.");
+                return;
+            }
+
+            showModal("Are you sure you want to close this diary tab?", () => {
                 const pageIndex = diaryPages.findIndex(p => p.id === pageId);
                 if (pageIndex > -1) {
-                    diaryPages.splice(pageIndex, 1);
+                    
+                    // Remove page from state
+                    const closedPage = diaryPages.splice(pageIndex, 1)[0];
+                    
+                    // Clear its data (optional, but good practice)
+                    if (closedPage.photographerId) {
+                        appointments[closedPage.photographerId] = [];
+                    }
+
+                    // Remove page from DOM
                     const pageElement = document.getElementById(pageId);
                     if (pageElement) {
                         pageElement.remove();
                     }
-                    populateMainTabs();
+                    
+                    // Update UI
+                    populateMainTabs(); // Redraw tabs and update '+' button
+
+                    // Switch to a different page if the active one was closed
                     if (currentPageId === pageId) {
-                        switchSheet('page-staff-hub');
+                        // Switch to the first diary page or staff hub
+                        const newPageToSelect = diaryPages.length > 0 ? diaryPages[0].id : 'page-staff-hub';
+                        switchSheet(newPageToSelect);
+                    } else {
+                        // Just update the active tab visual
+                        updateActiveTab();
                     }
                 }
             });
         }
         
         /**
-         * Create tabs for the 3 main pages
+         * REWRITTEN (Fix for Bug A): Create tabs dynamically
          */
         function populateMainTabs() {
             const nav = document.getElementById('tab-navigation');
@@ -575,38 +584,74 @@
             const staticPages = [
                 { id: 'page-staff-hub', name: 'Staff Hub', icon: 'users' },
                 { id: 'page-key', name: 'Key', icon: 'key' },
-                { id: 'page-calculator', name: 'Duration Calculator', icon: 'calculator' }, // <-- NEW PAGE
-                { id: 'page-diary-0', name: 'Diary Booking', icon: 'calendar-days' } // <-- UPDATED ID
+                { id: 'page-calculator', name: 'Duration Calculator', icon: 'calculator' },
             ];
 
-            const allPages = [...staticPages];
+            const icons = {
+                'users': '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372m.375-3.72a9.375 9.375 0 0 0-3.75 0m5.625 3.72a9.375 9.375 0 0 1-3.75 0M3.375 19.128a9.375 9.375 0 0 1 3.75 0m5.625 3.72a9.375 9.375 0 0 0-3.75 0m3.75-3.72a9.375 9.375 0 0 0 3.75 0m-9.375 3.72a9.375 9.375 0 0 1-3.75 0M14.625 12a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm-3.375 0a.375.375 0 0 0-.375.375v.375c0 .207.168.375.375.375h.375a.375.375 0 0 0 .375-.375v-.375a.375.375 0 0 0-.375-.375h-.375Z" /></svg>',
+                'key': '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" /></svg>',
+                'calculator': '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25v-.008Zm2.25-4.5h.008v.008H10.5v-.008Zm0 2.25h.008v.008H10.5v-.008Zm0 2.25h.008v.008H10.5v-.008Zm2.25-4.5h.008v.008H12.75v-.008Zm0 2.25h.008v.008H12.75v-.008Zm0 2.25h.008v.008H12.75v-.008Zm2.25-4.5h.008v.008H15v-.008Zm0 2.25h.008v.008H15v-.008Zm0 2.25h.008v.008H15v-.008Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h18M3 21h18v-3H3v3Zm0-3h18V6H3v12Z" /></svg>',
+                'calendar-days': '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>'
+            };
 
-            allPages.forEach(page => {
+            // 1. Add static tabs
+            staticPages.forEach(page => {
                 const tab = document.createElement('button');
                 tab.dataset.sheet = page.id;
                 tab.className = 'tab flex-1 p-4 text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-custom-green focus:outline-none flex items-center justify-center';
-                
-                let iconSvg = '';
-                if (page.icon === 'users') {
-                    iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372m.375-3.72a9.375 9.375 0 0 0-3.75 0m5.625 3.72a9.375 9.375 0 0 1-3.75 0M3.375 19.128a9.375 9.375 0 0 1 3.75 0m5.625 3.72a9.375 9.375 0 0 0-3.75 0m3.75-3.72a9.375 9.375 0 0 0 3.75 0m-9.375 3.72a9.375 9.375 0 0 1-3.75 0M14.625 12a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm-3.375 0a.375.375 0 0 0-.375.375v.375c0 .207.168.375.375.375h.375a.375.375 0 0 0 .375-.375v-.375a.375.375 0 0 0-.375-.375h-.375Z" /></svg>';
-                } else if (page.icon === 'key') {
-                    iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" /></svg>';
-                } else if (page.icon === 'calculator') {
-                    iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25v-.008Zm2.25-4.5h.008v.008H10.5v-.008Zm0 2.25h.008v.008H10.5v-.008Zm0 2.25h.008v.008H10.5v-.008Zm2.25-4.5h.008v.008H12.75v-.008Zm0 2.25h.008v.008H12.75v-.008Zm0 2.25h.008v.008H12.75v-.008Zm2.25-4.5h.008v.008H15v-.008Zm0 2.25h.008v.008H15v-.008Zm0 2.25h.008v.008H15v-.008Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h18M3 21h18v-3H3v3Zm0-3h18V6H3v12Z" /></svg>';
-                } else if (page.icon === 'calendar-days') {
-                    iconSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>';
-                }
-                
-                tab.innerHTML = `${iconSvg} ${page.name}`;
+                tab.innerHTML = `${icons[page.icon]} ${page.name}`;
                 tab.addEventListener('click', () => switchSheet(page.id));
                 nav.appendChild(tab);
             });
 
+            // 2. Add dynamic diary tabs
+            diaryPages.forEach(page => {
+                const tab = document.createElement('button');
+                tab.dataset.sheet = page.id;
+                tab.className = 'tab flex-1 p-4 text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-custom-green focus:outline-none flex items-center justify-center truncate';
+                // NEW: Use the dynamic name and icon
+                tab.innerHTML = `${icons['calendar-days']} ${page.name}`;
+                tab.addEventListener('click', () => switchSheet(page.id));
+                nav.appendChild(tab);
+            });
+
+            // 3. Add the '+' button
             const addTab = document.createElement('button');
+            addTab.id = 'add-new-diary-tab-button'; // NEW: Give it an ID
             addTab.className = 'p-4 text-sm font-medium text-white bg-custom-green hover:bg-custom-green-dark focus:outline-none flex items-center justify-center';
             addTab.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>';
             addTab.addEventListener('click', addNewDiaryPage);
             nav.appendChild(addTab);
+
+            // 4. Update tab states
+            updateActiveTab();
+            updateAddTabButtonState();
+        }
+
+        /**
+         * NEW: Updates the active tab visual
+         */
+        function updateActiveTab() {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.sheet === currentPageId) {
+                    tab.classList.add('active');
+                }
+            });
+        }
+
+        /**
+         * NEW: Checks diary page count and disables the '+' button
+         */
+        function updateAddTabButtonState() {
+            const addTabButton = document.getElementById('add-new-diary-tab-button');
+            if (!addTabButton) return;
+
+            if (diaryPages.length >= MAX_DIARY_PAGES) {
+                addTabButton.disabled = true;
+            } else {
+                addTabButton.disabled = false;
+            }
         }
 
         /**
@@ -620,16 +665,14 @@
             });
             // Show the selected one
             const pageElement = document.getElementById(sheetId);
-            pageElement.classList.remove('hidden');
+            if (pageElement) {
+                pageElement.classList.remove('hidden');
+            }
 
             // Update tab active state
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-                if (tab.dataset.sheet === sheetId) {
-                    tab.classList.add('active');
-                }
-            });
+            updateActiveTab();
 
+            // Disable form if no photographer is selected on a diary page
             const page = diaryPages.find(p => p.id === sheetId);
             if (page) {
                 disableCalculatorForm(pageElement, !page.photographerId);
@@ -646,6 +689,7 @@
                 const option = document.createElement('option');
                 option.value = photoId;
                 option.textContent = profile.name;
+                selectElement.appendChild(option); // Changed from innerHTML
             }
         }
         
@@ -656,30 +700,33 @@
             const select = document.getElementById('context-select');
             select.innerHTML = ''; // Clear options
 
-            // Add Generic Categories
             select.innerHTML += `<option value="" disabled selected>Select a context...</option>`;
-            select.innerHTML += `<optgroup label="Generic Categories">`;
+            
+            const catGroup = document.createElement('optgroup');
+            catGroup.label = "Generic Categories";
             for (const catId in timingCategories) {
                 const category = timingCategories[catId];
                 const option = document.createElement('option');
                 option.value = catId; // e.g., "cat1"
                 option.textContent = category.name;
-                select.querySelector('optgroup[label="Generic Categories"]').appendChild(option);
+                catGroup.appendChild(option);
             }
-            select.innerHTML += `</optgroup>`;
+            select.appendChild(catGroup);
 
-            // Add Photographers
-            select.innerHTML += `<optgroup label="Photographers">`;
+            const photogGroup = document.createElement('optgroup');
+            photogGroup.label = "Photographers";
             for (const photoId in photographerProfiles) {
                 const profile = photographerProfiles[photoId];
                 const category = timingCategories[profile.category];
                 const option = document.createElement('option');
                 option.value = profile.category; // e.g., "cat1"
                 option.textContent = `${profile.name} (${category.name})`;
-                select.querySelector('optgroup[label="Photographers"]').appendChild(option);
+                photogGroup.appendChild(option);
             }
-            select.innerHTML += `</optgroup>`;
-        }        /**
+            select.appendChild(photogGroup);
+        }
+        
+        /**
          * Populate the 'Key' sheet with tables for *all* categories
          */
         function populateKeySheet() {
@@ -728,12 +775,10 @@
                         rules.forEach(rule => {
                             let bedRange = '';
                             if (rule.maxBeds === Infinity) {
-                                // This is the "translation" logic we discussed
                                 bedRange = `${lastBeds + 1}+ beds`;
                             } else {
                                 bedRange = `${lastBeds + 1} - ${rule.maxBeds} beds`;
                             }
-                            // Handle 0-bed (e.g., 1-2 beds)
                             if (lastBeds === 0) {
                                 bedRange = `Up to ${rule.maxBeds} beds`;
                             }
@@ -805,7 +850,6 @@
             });
 
             // --- NEW: 3D SHOWCASE FLOOR INPUT LOGIC ---
-            // Attach listener to all checkboxes to check for the 3D showcase
             pageElement.querySelectorAll('.product-checkbox').forEach(checkbox => {
                 checkbox.addEventListener('change', () => toggleFloorInput(pageElement));
             });
@@ -863,7 +907,6 @@
          * NEW: Show/Hide the "Number of Floors" input based on 3D Showcase
          */
         function toggleFloorInput(pageElement) {
-            // Find the elements *within the specific page*
             const showcaseCheckbox = pageElement.querySelector(`input[data-product-id="showcase_3d"]`);
             const floorsWrapper = pageElement.querySelector('.floors-input-wrapper');
             
@@ -879,7 +922,6 @@
          * NEW: Show/Hide the "Number of Floors" input on the Calculator page
          */
         function toggleCalcFloorInput(pageElement) {
-            // Find the elements *within the calculator page*
             const showcaseCheckbox = pageElement.querySelector(`input[data-product-id="showcase_3d"]`);
             const floorsWrapper = pageElement.querySelector('#calc-floors-wrapper');
             
@@ -892,7 +934,7 @@
         }
 
         /**
-         * Handle selecting a photographer from the dropdown
+         * MODIFIED: Handle selecting a photographer from the dropdown
          */
         function selectPhotographer(e) {
             const pageElement = e.target.closest('.sheet-content');
@@ -900,21 +942,26 @@
             const page = diaryPages.find(p => p.id === pageId);
             if (!page) return;
 
+            // BUG B: This is where the shared data problem starts.
+            // If another page is using this photographer, we're about to reset their schedule.
+            // We are IGNORING this for the mock-up, as requested.
             page.photographerId = e.target.value;
+            
             if (page.photographerId) {
                 const profile = photographerProfiles[page.photographerId];
-                page.name = `Diary Booking - ${profile.name}`;
+                page.name = profile.name; // NEW: Set the page name
                 disableCalculatorForm(pageElement, false);
                 pageElement.querySelector('#schedule-title').textContent = `Calculated Schedule: ${profile.name}`;
                 pageElement.querySelector('#photographer-category-display').textContent = `Using Category: ${timingCategories[profile.category].name}`;
             } else {
-                page.name = "Diary Booking";
+                page.name = "Diary Booking"; // NEW: Reset the page name
                 disableCalculatorForm(pageElement, true);
                 pageElement.querySelector('#schedule-title').textContent = `Calculated Schedule`;
                 pageElement.querySelector('#photographer-category-display').textContent = ``;
             }
-            populateMainTabs();
-            renderSchedule();
+            
+            populateMainTabs(); // NEW: Redraw tabs to show the new name
+            renderSchedule(); // This will clear the schedule if appointments[] is empty
             resetFormFields(pageElement);
         }
 
@@ -945,9 +992,6 @@
                 return;
             }
             
-            // --- TIME LOGIC: Use "time-as-minutes" math, not Date() objects ---
-            // This is the "Path B" logic we agreed on.
-            
             // 1. Get all form values
             const bedrooms = parseInt(pageElement.querySelector('#bedrooms').value) || 0;
             const travelTime = parseInt(pageElement.querySelector('#travel-time').value) || 0;
@@ -959,7 +1003,6 @@
                     type: checkbox.dataset.type
                 });
             });
-            // Get Optional Reference Fields
             const orderRef = pageElement.querySelector('#ref-order-id').value;
             const address = pageElement.querySelector('#ref-address').value;
             const postcode = pageElement.querySelector('#ref-postcode').value;
@@ -976,33 +1019,37 @@
             }
             
             // 3. Get ruleset and calculate duration
-            const currentSchedule = appointments[page.photographerId];
+            // BUG B (Ignored): We get the schedule for the photographer, not the page.
+            const currentSchedule = appointments[page.photographerId]; 
             const categoryId = photographerProfiles[page.photographerId].category;
             const ruleset = timingCategories[categoryId];
 
-            // Get the new "Number of Floors" value from the correct page element
             const numFloors = parseInt(pageElement.querySelector('.num-floors-input').value) || 1;
             const duration = calculateDuration(bedrooms, selectedProducts, ruleset, numFloors);
 
             // 4. --- Core Calculation Engine ---
             
             let arrivalTimeMins, arrivalWindowEndMins, finishTimeMins, finishWindowEndMins, wmsTimeMins, buffer;
-            let latestFinishTimeForNextJob = 0; // in minutes-from-midnight
+            let latestFinishTimeForNextJob = 0;
             
             if (currentSchedule.length === 0) {
                 // This is the FIRST job of the day
-                const arrivalTimeStr = document.getElementById('first-job-arrival-time').value;
+                
+                // --- FIX for Bug C ---
+                // WAS: const arrivalTimeStr = document.getElementById('first-job-arrival-time').value;
+                // IS: Get the time from the *current page element*
+                const arrivalTimeStr = pageElement.querySelector('#first-job-arrival-time').value;
+                // --- End of Fix ---
+
                 arrivalTimeMins = timeStringToMinutes(arrivalTimeStr); // e.g., "09:00" -> 540
                 
                 buffer = 0;
                 
-                // Set 30-min window
                 arrivalWindowEndMins = arrivalTimeMins + ARRIVAL_WINDOW_BUFFER; // 540 + 30 = 570
                 finishTimeMins = arrivalTimeMins + duration;
                 finishWindowEndMins = arrivalWindowEndMins + duration;
 
-                // --- WMS LOGIC (First Job) ---
-                wmsTimeMins = arrivalTimeMins; // WMS time is the start, e.g., 540
+                wmsTimeMins = arrivalTimeMins;
                 
                 latestFinishTimeForNextJob = finishTimeMins;
 
@@ -1012,21 +1059,15 @@
                 
                 buffer = ruleset.travelBuffer;
                 
-                // 1. Calculate the "true" arrival time (e.g., 11:40 -> 700)
                 const trueArrivalMins = latestFinishTimeForNextJob + travelTime + buffer;
                 
-                // 2. NEW STEP: Round the "true" arrival time to the nearest 15 mins (e.g., 700 -> 705)
                 arrivalTimeMins = roundToNearest(trueArrivalMins, 15);
                 
-                // 3. Calculate all other times based on this *new rounded* arrivalTime
-                arrivalWindowEndMins = arrivalTimeMins + ARRIVAL_WINDOW_BUFFER; // (e.g., 705 + 30 = 735)
+                arrivalWindowEndMins = arrivalTimeMins + ARRIVAL_WINDOW_BUFFER;
                 finishTimeMins = arrivalTimeMins + duration;
                 finishWindowEndMins = arrivalWindowEndMins + duration;
 
-                // --- WMS LOGIC (Subsequent Jobs) ---
-                // 1. Find the midpoint of the *new rounded* arrival window (e.g., 705 + 15 = 720)
                 const midArrivalMins = arrivalTimeMins + (ARRIVAL_WINDOW_BUFFER / 2);
-                // 2. Round that midpoint to the nearest 30 mins (e.g., 720)
                 wmsTimeMins = roundToNearest(midArrivalMins, 30);
 
                 latestFinishTimeForNextJob = finishTimeMins;
@@ -1034,11 +1075,9 @@
 
             // 5. Create appointment object
             const newAppointment = {
-                // Store reference fields
                 orderRef: orderRef,
                 address: address,
                 postcode: postcode,
-                // Store calculation values
                 travel: travelTime,
                 buffer: buffer,
                 arrivalStr: formatMinutes(arrivalTimeMins),
@@ -1049,7 +1088,6 @@
                 finishTimeStr: formatMinutes(finishTimeMins),
                 finishWindowEndStr: formatMinutes(finishWindowEndMins),
                 wmsTimeStr: formatMinutes(wmsTimeMins),
-                // Store the raw minutes for the *next* calculation
                 latestFinishMins: latestFinishTimeForNextJob
             };
 
@@ -1097,7 +1135,8 @@
 
             // 3. Get the ruleset for the *selected* context
             const selectedRuleset = timingCategories[contextCatId];
-            const selectedContextName = selectedRuleset.name;
+            const selectedContextName = pageElement.querySelector('#context-select option:checked').textContent;
+
 
             // 4. Run the main calculation for the selected context
             const totalTime = calculateDuration(bedrooms, selectedProducts, selectedRuleset, numFloors);
@@ -1138,6 +1177,10 @@
                     <span class="font-medium text-gray-900">+${item.time} mins</span>
                 </div>
             `).join('');
+            
+            if (breakdownItems.length === 0) {
+                 breakdownWrapper.innerHTML = `<p class="text-gray-500">No products selected.</p>`;
+            }
 
             // 8. Show the results
             placeholder.classList.add('hidden');
@@ -1157,7 +1200,7 @@
                 if (ruleset.products.hasOwnProperty(productId)) {
                     const rules = ruleset.products[productId];
                     const rule = rules.sort((a, b) => a.maxBeds - b.maxBeds)
-                                    .find(r => bedrooms <= r.maxBeds);
+                                      .find(r => bedrooms <= r.maxBeds);
                     
                     if (rule) {
                         breakdown.push({ name: product.name, time: rule.time });
@@ -1175,10 +1218,6 @@
                 }
             });
 
-            if (breakdown.length === 0) {
-                breakdown.push({ name: 'No products selected', time: 0 });
-            }
-
             return breakdown;
         }
         
@@ -1189,8 +1228,10 @@
             const page = diaryPages.find(p => p.id === currentPageId);
             if (!page || !page.photographerId) return;
             
+            // BUG B (Ignored): This clears the shared data for the photographer.
             appointments[page.photographerId] = [];
-            renderSchedule();
+            
+            renderSchedule(); // Renders the now-empty schedule
             const pageElement = document.getElementById(currentPageId);
             resetFormFields(pageElement, true); // Force reset day start time
         }
@@ -1210,9 +1251,17 @@
             pageElement.querySelector('#ref-order-id').value = '';
             pageElement.querySelector('#ref-address').value = '';
             pageElement.querySelector('#ref-postcode').value = '';
+            
+            // Un-disable mutually exclusive checkboxes
+            pageElement.querySelector(`input[data-product-id="standard_photos"]`).disabled = false;
+            pageElement.querySelector(`input[data-product-id="premium_photos"]`).disabled = false;
+            
+            // Hide floor input
+            toggleFloorInput(pageElement);
 
 
             const page = diaryPages.find(p => p.id === currentPageId);
+            // BUG B (Ignored): We check the shared schedule for the photographer.
             const currentSchedule = page && page.photographerId ? appointments[page.photographerId] : [];
 
             if (forceResetDayStart || !currentSchedule || currentSchedule.length === 0) {
@@ -1244,24 +1293,19 @@
             products.forEach(product => {
                 const productId = product.id;
                 
-                // Check if this product has rules defined in the category
                 if (ruleset.products.hasOwnProperty(productId)) {
                     const rules = ruleset.products[productId];
                     
-                    // Find the matching rule for the bedroom size
-                    // We sort the rules by maxBeds to ensure we get the right one
                     const rule = rules.sort((a, b) => a.maxBeds - b.maxBeds)
-                                    .find(r => bedrooms <= r.maxBeds);
+                                      .find(r => bedrooms <= r.maxBeds);
                     
                     if (rule) {
                         totalDuration += rule.time;
                     }
 
                     // --- NEW 3D SHOWCASE LOGIC ---
-                    // If this is the 3D Showcase, check for the floor surcharge
                     if (productId === 'showcase_3d') {
                         if (numFloors > 1) {
-                            // Add surcharge for each floor *after* the first
                             const surcharge = (numFloors - 1) * floorSurcharge; 
                             totalDuration += surcharge;
                         }
@@ -1277,28 +1321,26 @@
          */
         function renderSchedule() {
             const pageElement = document.getElementById(currentPageId);
-            if (!pageElement) return;
+            if (!pageElement || !pageElement.querySelector) return; // Check if page exists
             const tbody = pageElement.querySelector('#schedule-body');
             tbody.innerHTML = ''; // Clear table
 
             const page = diaryPages.find(p => p.id === currentPageId);
             if (!page || !page.photographerId) return;
             
+            // BUG B (Ignored): We get the shared schedule for the photographer.
             const currentSchedule = appointments[page.photographerId];
             
             currentSchedule.forEach((appt, index) => {
-                // Create display strings for windows
                 const arrivalDisplay = `${appt.arrivalStr} / ${appt.arrivalWindowEndStr}`;
                 const finishDisplay = `${appt.finishTimeStr} / ${appt.finishWindowEndStr}`;
 
                 const row = `
                     <tr class="hover:bg-gray-50">
                         <td class="px-3 py-4 whitespace-nowrap text-sm font-bold text-gray-700">${index + 1}</td>
-                        <!-- New Reference Columns -->
                         <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500 truncate" style="max-width: 100px;" title="${appt.orderRef}">${appt.orderRef}</td>
                         <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500 truncate" style="max-width: 150px;" title="${appt.address}">${appt.address}</td>
                         <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500 truncate" style="max-width: 80px;" title="${appt.postcode}">${appt.postcode}</td>
-                        <!-- Core Columns -->
                         <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">${appt.travel}</td>
                         <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">${appt.buffer}</td>
                         <td class="px-3 py-4 whitespace-nowrap text-sm font-bold text-custom-green">${arrivalDisplay}</td>
@@ -1306,7 +1348,6 @@
                         <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">${appt.bedrooms}</td>
                         <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500 truncate" style="max-width: 150px;" title="${appt.productsStr}">${appt.productsStr}</td>
                         <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">${formatDuration(appt.duration)}</td>
-                        <!-- FIX: Changed text-green-600 to text-custom-finish -->
                         <td class="px-3 py-4 whitespace-nowrap text-sm font-bold text-custom-finish">${finishDisplay}</td>
                     </tr>
                 `;
@@ -1318,7 +1359,6 @@
 
         /**
          * Converts "HH:MM" string to minutes-from-midnight
-         * e.g., "09:00" -> 540
          */
         function timeStringToMinutes(timeStr) {
             const [hours, minutes] = timeStr.split(':').map(Number);
@@ -1327,7 +1367,6 @@
 
         /**
          * Converts minutes-from-midnight to "HH:MM" string
-         * e.g., 540 -> "09:00"
          */
         function formatMinutes(totalMinutes) {
             const hours = Math.floor(totalMinutes / 60);
@@ -1337,7 +1376,6 @@
 
         /**
          * Helper to format duration in minutes to h:mm string
-         * e.g., 75 -> "1:15"
          */
         function formatDuration(totalMinutes) {
             const hours = Math.floor(totalMinutes / 60);
@@ -1347,15 +1385,13 @@
 
         /**
          * Rounds a number of minutes to the nearest interval
-         * e.g., roundToNearest(700, 15) -> 705
-         * e.g., roundToNearest(722, 30) -> 720
          */
         function roundToNearest(minutes, interval) {
             return Math.round(minutes / interval) * interval;
         }
         
         /**
-         * Shows a custom modal dialog instead of alert()
+         * Shows a custom modal dialog
          */
         function showModal(message, onConfirm) {
             let modal = document.getElementById('alert-modal');
@@ -1417,4 +1453,3 @@
     </script>
 </body>
 </html>
-
