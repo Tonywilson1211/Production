@@ -289,20 +289,26 @@
                             </div>
 
                             <div class="space-y-2 pt-2">
-                                <label for="additional-time" class="block text-sm font-medium text-gray-700">Additional Time (Full v1.0 Feature)</label>
-                                <input type="number" id="additional-time" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" placeholder="e.g., 15 mins (disabled)" disabled>
-                                
-                                <div class="flex items-center">
+                                <label for="additional-time" class="block text-sm font-medium text-gray-700">Additional Time (Optional)</label>
+                                <input type="number" id="additional-time" name="additional-time" class="additional-time-input mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green" placeholder="e.g., 15 mins">
+
+                                <div class="flex items-center pt-2">
                                     <input id="ad-hoc-job" name="ad-hoc-job" type="checkbox" class="h-4 w-4 text-custom-green border-gray-300 rounded focus:ring-custom-green" disabled>
                                     <label for="ad-hoc-job" class="ml-2 block text-sm text-gray-700">Ad-Hoc Job (Full v1.0 Feature)</label>
                                 </div>
                             </div>
 
-                            <div class="flex justify-between pt-4">
-                                <button type="submit" class="w-2/3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-custom-green hover:bg-custom-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green">
+                            <div class="flex justify-between pt-4 space-x-2">
+                                <button type="submit" class="w-1/2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-custom-green hover:bg-custom-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green">
                                     Add Appointment
                                 </button>
-                                <button type="button" id="reset-schedule" class="w-1/3 ml-3 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green">
+                                <button type="button" id="delete-last-job" class="w-1/4 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green">
+                                    Delete Last
+                                </button>
+                                <button type="button" id="redo-mock" class="w-1/4 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-400 bg-gray-100 cursor-not-allowed" title="Full 'Redo' feature available in v1.0" disabled>
+                                    Redo
+                                </button>
+                                <button type="button" id="reset-schedule" class="w-1/4 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green">
                                     Reset
                                 </button>
                             </div>
@@ -328,6 +334,7 @@
                                     <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Products</th>
                                     <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration (h:mm)</th>
                                     <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Finish (Window)</th>
+                                    <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200" id="schedule-body">
@@ -521,6 +528,7 @@
             newPhotographerSelect.addEventListener('change', selectPhotographer);
             diaryPageClone.querySelector('#appointment-form').addEventListener('submit', handleAddAppointment);
             diaryPageClone.querySelector('#reset-schedule').addEventListener('click', resetSchedule);
+            diaryPageClone.querySelector('#delete-last-job').addEventListener('click', handleDeleteLastJob);
             
             toggleFloorInput(diaryPageClone); // Ensure floors input is hidden on new page
 
@@ -775,7 +783,7 @@
                         rules.forEach(rule => {
                             let bedRange = '';
                             if (rule.maxBeds === Infinity) {
-                                bedRange = `${lastBeds + 1}+ beds`;
+                                bedRange = `${lastBeds + 1}+ beds*`;
                             } else {
                                 bedRange = `${lastBeds + 1} - ${rule.maxBeds} beds`;
                             }
@@ -803,6 +811,11 @@
                 });
                 
                 html += `</div>`; // Close grid
+                
+                // Add footnote only once to the first category
+                if (catId === 'cat1') {
+                    html += `<p class="text-sm text-gray-600 italic mt-4">*For 7+ bed properties, please contact the photographer to confirm timings.</p>`;
+                }
                 categoryBlock.innerHTML = html;
                 container.appendChild(categoryBlock);
             }
@@ -994,6 +1007,9 @@
             
             // 1. Get all form values
             const bedrooms = parseInt(pageElement.querySelector('#bedrooms').value) || 0;
+            if (bedrooms >= 7) {
+                showModal("Advisory: You have selected a 7+ bedroom property. Please contact the photographer to confirm the estimated duration.");
+            }
             const travelTime = parseInt(pageElement.querySelector('#travel-time').value) || 0;
             const selectedProducts = [];
             pageElement.querySelectorAll('input[name="product"]:checked').forEach(checkbox => {
@@ -1025,7 +1041,8 @@
             const ruleset = timingCategories[categoryId];
 
             const numFloors = parseInt(pageElement.querySelector('.num-floors-input').value) || 1;
-            const duration = calculateDuration(bedrooms, selectedProducts, ruleset, numFloors);
+            const additionalTime = parseInt(pageElement.querySelector('.additional-time-input').value) || 0;
+            const duration = calculateDuration(bedrooms, selectedProducts, ruleset, numFloors) + additionalTime;
 
             // 4. --- Core Calculation Engine ---
             
@@ -1109,6 +1126,9 @@
             // 1. Get all form inputs
             const contextCatId = pageElement.querySelector('#context-select').value;
             const bedrooms = parseInt(pageElement.querySelector('#calc-bedrooms').value) || 0;
+            if (bedrooms >= 7) {
+                showModal("Advisory: You have selected a 7+ bedroom property. Please contact the photographer to confirm the estimated duration.");
+            }
             const numFloors = parseInt(pageElement.querySelector('#calc-num-floors').value) || 1;
             
             const selectedProducts = [];
@@ -1235,6 +1255,33 @@
             const pageElement = document.getElementById(currentPageId);
             resetFormFields(pageElement, true); // Force reset day start time
         }
+
+    /**
+     * NEW: Removes the last-added job from the current schedule
+     */
+    function handleDeleteLastJob(e) {
+        const pageElement = e.target.closest('.sheet-content');
+        const pageId = pageElement.id;
+        const page = diaryPages.find(p => p.id === pageId);
+
+        if (!page || !page.photographerId) return;
+
+        const currentSchedule = appointments[page.photographerId];
+
+        if (currentSchedule.length > 0) {
+            // Remove the last job from the array
+            currentSchedule.pop();
+
+            // Redraw the table
+            renderSchedule();
+
+            // Reset the form fields to be ready for the next entry
+            resetFormFields(pageElement, false);
+        } else {
+            showModal("Diary is already empty.");
+        }
+    }
+        
         
         /**
          * Resets form fields, manages input enable/disable based on schedule
@@ -1349,6 +1396,13 @@
                         <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500 truncate" style="max-width: 150px;" title="${appt.productsStr}">${appt.productsStr}</td>
                         <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">${formatDuration(appt.duration)}</td>
                         <td class="px-3 py-4 whitespace-nowrap text-sm font-bold text-custom-finish">${finishDisplay}</td>
+                        <td class="px-3 py-4 whitespace-nowrap text-sm text-center">
+                            <button class="text-gray-400 cursor-not-allowed" title="Full 'Edit' feature available in v1.0" disabled>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                </svg>
+                            </button>
+                        </td>
                     </tr>
                 `;
                 tbody.innerHTML += row;
