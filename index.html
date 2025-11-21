@@ -70,10 +70,8 @@
 
     <header class="bg-white shadow-md p-4 flex items-center justify-between">
         <div class="flex items-center">
-            <div class="h-8 w-8 bg-custom-green rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">
-                <img src="https://placehold.co/32x32/93be1e/ffffff/png?text=DBA" alt="Company Logo" class="h-8 w-8 rounded-full">
-            </div>
-            <h1 class="text-xl font-semibold text-gray-800">Diary Booking Assistant</h1>
+            <img src="../images/niche_logo_white.png" alt="NicheCom Logo" class="h-10 rounded-md">
+            <h1 class="text-xl font-semibold text-gray-800 ml-4">Diary Booking Assistant</h1>
         </div>
     </header>
 
@@ -249,6 +247,7 @@
                             <option value="" disabled selected>Select a photographer...</option>
                             </select>
                         <p id="photographer-category-display" class="mt-1 text-sm text-custom-green font-medium"></p>
+                        <p id="raul-note" class="mt-1 text-sm text-red-600 font-bold hidden">Note: Check Locksbottom sales orders with Raul.</p>
                     </div>
 
                     <form id="appointment-form" class="space-y-4">
@@ -263,7 +262,10 @@
                             </div>
                             
                             <div>
-                                <label for="first-job-arrival-time" class="block text-sm font-medium text-gray-700">First Job Arrival (8am-5pm)</label>
+                                <div class="flex justify-between items-center">
+                                    <label for="first-job-arrival-time" class="block text-sm font-medium text-gray-700">First Job Arrival (8am-5pm)</label>
+                                    <button type="button" onclick="showTipsModal()" class="text-sm text-custom-green font-medium hover:underline focus:outline-none">Tips</button>
+                                </div>
                                 <input type="time" id="first-job-arrival-time" value="09:00" min="08:00" max="17:00" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green">
                             </div>
                             
@@ -350,6 +352,28 @@
     <nav id="tab-navigation" class="flex border-t border-gray-300 bg-white shadow-inner">
         </nav>
 
+    <div id="tips-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 hidden">
+        <div class="relative mx-auto p-6 border w-full max-w-lg shadow-lg rounded-md bg-white">
+            <h3 class="text-lg font-bold text-gray-900">Property Sizing Tips</h3>
+            <div class="mt-4 space-y-2 text-sm text-gray-700">
+                <ul class="list-disc list-inside space-y-2">
+                    <li>Ask the contact for a rough square footage and if there are any outbuildings.</li>
+                    <li>Check if the number of bathrooms is similar to the number of bedrooms (a good indicator of a large property).</li>
+                    <li>Search the postcode in WMS to see if we have visited before.</li>
+                    <li>Check Rightmove sold prices for previous images.</li>
+                    <li>Check the EPC register for the property's size.</li>
+                    <li>Use Google Street View to get a visual sense of the property.</li>
+                    <li class="font-bold">Area 2 Average is ~1300sqft. Anything over 2500sqft may require extra time.</li>
+                </ul>
+            </div>
+            <div class="mt-6 text-right">
+                <button type="button" onclick="closeTipsModal()" class="px-4 py-2 bg-custom-green text-white text-sm font-medium rounded-md shadow-sm hover:bg-custom-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // --- DATA & ASSUMPTIONS ---
 
@@ -412,6 +436,25 @@
                     'elevated_multi': [ { maxBeds: 2, time: 20 }, { maxBeds: 4, time: 20 }, { maxBeds: 6, time: 20 }, { maxBeds: Infinity, time: 20 } ],
                     'video_presented': [ { maxBeds: 2, time: 35 }, { maxBeds: 4, time: 35 }, { maxBeds: 6, time: 45 }, { maxBeds: Infinity, time: 45 } ]
                 }
+            },
+            cat_raul: {
+                name: "Custom Cat - Raul Caramizaru",
+                travelBuffer: 15,
+                floorSurcharge: 5, // Surcharge per floor for 3D Showcase
+                products: {
+                    'standard_photos': [{ maxBeds: 1, time: 20 }, { maxBeds: 2, time: 25 }, { maxBeds: 3, time: 30 }, { maxBeds: 4, time: 40 }, { maxBeds: 5, time: 45 }, { maxBeds: Infinity, time: 0 }],
+                    'premium_photos': [{ maxBeds: 1, time: 30 }, { maxBeds: 2, time: 35 }, { maxBeds: 3, time: 40 }, { maxBeds: 4, time: 50 }, { maxBeds: 5, time: 60 }, { maxBeds: Infinity, time: 0 }],
+                    'capture_photos': [{ maxBeds: 1, time: 30 }, { maxBeds: 2, time: 40 }, { maxBeds: 3, time: 50 }, { maxBeds: 4, time: 60 }, { maxBeds: 5, time: 70 }, { maxBeds: Infinity, time: 0 }],
+                    'floorplan': [{ maxBeds: 1, time: 20 }, { maxBeds: 2, time: 25 }, { maxBeds: 3, time: 30 }, { maxBeds: 4, time: 45 }, { maxBeds: 5, time: 60 }, { maxBeds: Infinity, time: 0 }],
+                    'epc': [{ maxBeds: 1, time: 20 }, { maxBeds: 2, time: 25 }, { maxBeds: 3, time: 30 }, { maxBeds: 4, time: 35 }, { maxBeds: 5, time: 40 }, { maxBeds: Infinity, time: 0 }],
+                    'video': [{ maxBeds: 1, time: 15 }, { maxBeds: 2, time: 15 }, { maxBeds: 3, time: 15 }, { maxBeds: 4, time: 20 }, { maxBeds: 5, time: 20 }, { maxBeds: Infinity, time: 0 }],
+                    'drone_photos': [{ maxBeds: 1, time: 20 }, { maxBeds: 2, time: 20 }, { maxBeds: 3, time: 25 }, { maxBeds: 4, time: 25 }, { maxBeds: 5, time: 30 }, { maxBeds: Infinity, time: 0 }],
+                    'drone_video': [{ maxBeds: 1, time: 25 }, { maxBeds: 2, time: 25 }, { maxBeds: 3, time: 25 }, { maxBeds: 4, time: 30 }, { maxBeds: 5, time: 30 }, { maxBeds: Infinity, time: 0 }],
+                    'showcase_3d': [{ maxBeds: 1, time: 30 }, { maxBeds: 2, time: 35 }, { maxBeds: 3, time: 40 }, { maxBeds: 4, time: 50 }, { maxBeds: 5, time: 60 }, { maxBeds: Infinity, time: 0 }],
+                    'elevated_single': [{ maxBeds: 1, time: 10 }, { maxBeds: 2, time: 10 }, { maxBeds: 3, time: 10 }, { maxBeds: 4, time: 10 }, { maxBeds: 5, time: 10 }, { maxBeds: Infinity, time: 0 }],
+                    'elevated_multi': [{ maxBeds: 1, time: 20 }, { maxBeds: 2, time: 20 }, { maxBeds: 3, time: 20 }, { maxBeds: 4, time: 20 }, { maxBeds: 5, time: 20 }, { maxBeds: Infinity, time: 0 }],
+                    'video_presented': [{ maxBeds: 1, time: 35 }, { maxBeds: 2, time: 35 }, { maxBeds: 3, time: 35 }, { maxBeds: 4, time: 45 }, { maxBeds: 5, time: 45 }, { maxBeds: Infinity, time: 0 }]
+                }
             }
         };
 
@@ -421,12 +464,14 @@
             p2: { name: "Paul Udgaranya", category: 'cat2' },
             p3: { name: "William Howe", category: 'cat3' },
             p4: { name: "Kacper Chodyra", category: 'cat2' },
+            p5: { name: "Raul Caramizaru", category: 'cat_raul' },
         };
         
         // List of all products offered
         const productList = [
             { id: 'standard_photos', name: 'Standard Photography' },
             { id: 'premium_photos', name: 'Premium Photography' },
+            { id: 'capture_photos', name: 'Capture Photography' },
             { id: 'floorplan', name: 'Floorplan' },
             { id: 'epc', name: 'EPC' },
             { id: 'video', name: 'Property Video' },
@@ -739,84 +784,93 @@
          */
         function populateKeySheet() {
             const container = document.getElementById('key-categories-container');
-            container.innerHTML = ''; // Clear existing
+            container.innerHTML = ''; 
             
-            // Helper to find a product's name from its ID
-            const getProductName = (id) => productList.find(p => p.id === id)?.name || id;
-
             for (const catId in timingCategories) {
                 const category = timingCategories[catId];
+                
+                // Create main container
                 const categoryBlock = document.createElement('div');
-                categoryBlock.className = 'border border-gray-200 rounded-lg p-6';
+                categoryBlock.className = 'border border-gray-200 rounded-lg bg-white overflow-hidden mb-4 shadow-sm';
                 
-                let html = `<h2 class="text-xl font-bold text-custom-green mb-4">${category.name}</h2>`;
-                
-                // General Table
-                html += `
-                    <h3 class="text-lg font-semibold text-gray-700 mb-2">General</h3>
-                    <table class="min-w-full divide-y divide-gray-200 mb-6">
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            <tr>
-                                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">Travel Time Buffer</td>
-                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">${category.travelBuffer} mins</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                // Create Header (Clickable)
+                const header = document.createElement('button');
+                header.className = 'w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition-colors text-left focus:outline-none';
+                header.innerHTML = `
+                    <h2 class="text-lg font-bold text-custom-green">${category.name}</h2>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-500 transform transition-transform duration-200 chevron-icon">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
                 `;
                 
-                // Products Breakdown
-                html += `<h3 class="text-lg font-semibold text-gray-700 mb-4 border-t pt-4">Product Timings</h3>`;
-                html += `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
+                // Create Content (Hidden by default)
+                const content = document.createElement('div');
+                content.className = 'hidden p-6 border-t border-gray-200';
                 
-                // Loop through each product ID in the productList to maintain order
-                productList.forEach(product => {
-                    const productId = product.id;
-                    if (category.products.hasOwnProperty(productId)) {
-                        const rules = category.products[productId];
-                        const productName = product.name;
-                        
-                        html += `<div class="border border-gray-200 rounded-lg p-4 bg-gray-50">`;
-                        html += `<h4 class="font-semibold text-gray-800 mb-3">${productName}</h4>`;
-                        html += `<ul class="list-none space-y-2">`;
-                        
-                        let lastBeds = 0;
-                        rules.forEach(rule => {
-                            let bedRange = '';
-                            if (rule.maxBeds === Infinity) {
-                                bedRange = `${lastBeds + 1}+ beds*`;
-                            } else {
-                                bedRange = `${lastBeds + 1} - ${rule.maxBeds} beds`;
-                            }
-                            if (lastBeds === 0) {
-                                bedRange = `Up to ${rule.maxBeds} beds`;
-                            }
-
-                            lastBeds = rule.maxBeds;
-                            
-                            html += `<li class="flex justify-between text-sm">
-                                         <span class="text-gray-600">${bedRange}:</span>
-                                         <span class="font-medium text-gray-900">${rule.time} mins</span>
-                                     </li>`;
-                        });
-
-                        // Add 3D Showcase floor logic note
-                        if (productId === 'showcase_3d') {
-                             html += `<li class="text-xs text-gray-500 italic pt-2 border-t mt-2">
-                                         +${category.floorSurcharge} mins per additional floor
-                                     </li>`;
-                        }
-                        
-                        html += `</ul></div>`;
+                // Toggle Logic
+                header.addEventListener('click', () => {
+                    content.classList.toggle('hidden');
+                    const icon = header.querySelector('.chevron-icon');
+                    if (content.classList.contains('hidden')) {
+                        icon.classList.remove('rotate-180');
+                    } else {
+                        icon.classList.add('rotate-180');
                     }
                 });
+
+                // --- Build The Table Content (Same logic as before) ---
+                let html = `
+                    <div class="mb-6">
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">General Rules</h3>
+                        <p class="text-sm text-gray-700">Travel Buffer: <span class="font-medium">${category.travelBuffer} mins</span></p>
+                        <p class="text-sm text-gray-700">3D Floor Surcharge: <span class="font-medium">+${category.floorSurcharge} mins/floor</span></p>
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Product Timings</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                `;
                 
+                // Helper for product name
+                const getProductName = (id) => productList.find(p => p.id === id)?.name || id;
+
+                // Loop products
+                const products = category.products || {}; 
+                // Note: In new structure, 'products' is an object, not array. 
+                // Use productList to define order.
+                productList.forEach(p => {
+                    if(products[p.id]) {
+                         const rules = products[p.id];
+                         html += `<div class="bg-gray-50 p-3 rounded border border-gray-100">
+                                    <h4 class="font-semibold text-gray-800 text-sm mb-2">${p.name}</h4>
+                                    <ul class="text-xs space-y-1 text-gray-600">`;
+                         
+                         let lastBeds = 0;
+                         rules.forEach(r => {
+                             let label = r.maxBeds === Infinity ? `${lastBeds + 1}+` : `${lastBeds+1}-${r.maxBeds}`;
+                             if (lastBeds === 0 && r.maxBeds !== Infinity) label = `1-${r.maxBeds}`; // Fix for 1-2
+                             if (category.name.includes("Raul")) { 
+                                 // Raul specific single digit display preference if needed, 
+                                 // or just use standard ranges. 
+                                 // Keeping standard logic for simplicity unless 1-1 mapping is strict.
+                                 if(r.maxBeds !== Infinity && r.maxBeds === lastBeds + 1) label = `${r.maxBeds}`; // Single bed logic
+                             }
+                             
+                             html += `<li class="flex justify-between"><span>${label} bds:</span> <span>${r.time}m</span></li>`;
+                             lastBeds = r.maxBeds;
+                         });
+                         html += `</ul></div>`;
+                    }
+                });
+
                 html += `</div>`; // Close grid
                 
-                // Add footnote only once to the first category
+                // Add 7+ Bed Note if Cat 1
                 if (catId === 'cat1') {
-                    html += `<p class="text-sm text-gray-600 italic mt-4">*For 7+ bed properties, please contact the photographer to confirm timings.</p>`;
+                    html += `<p class="text-xs text-gray-400 italic mt-4 pt-4 border-t">* For 7+ bed properties, please contact the photographer.</p>`;
                 }
-                categoryBlock.innerHTML = html;
+
+                content.innerHTML = html;
+                categoryBlock.appendChild(header);
+                categoryBlock.appendChild(content);
                 container.appendChild(categoryBlock);
             }
         }
@@ -840,26 +894,28 @@
                 listDiv.innerHTML += item;
             });
 
-            // --- MUTUAL EXCLUSION LOGIC (Standard vs. Premium) ---
+            // --- MUTUAL EXCLUSION LOGIC (Standard vs. Premium vs. Capture) ---
             const standardPhotosCheckbox = pageElement.querySelector(`input[data-product-id="standard_photos"]`);
             const premiumPhotosCheckbox = pageElement.querySelector(`input[data-product-id="premium_photos"]`);
+            const capturePhotosCheckbox = pageElement.querySelector(`input[data-product-id="capture_photos"]`);
 
-            standardPhotosCheckbox.addEventListener('change', () => {
-                if (standardPhotosCheckbox.checked) {
-                    premiumPhotosCheckbox.disabled = true;
-                    premiumPhotosCheckbox.checked = false; // Uncheck it
-                } else {
-                    premiumPhotosCheckbox.disabled = false;
-                }
-            });
+            const photoCheckboxes = [standardPhotosCheckbox, premiumPhotosCheckbox, capturePhotosCheckbox];
 
-            premiumPhotosCheckbox.addEventListener('change', () => {
-                if (premiumPhotosCheckbox.checked) {
-                    standardPhotosCheckbox.disabled = true;
-                    standardPhotosCheckbox.checked = false; // Uncheck it
-                } else {
-                    standardPhotosCheckbox.disabled = false;
-                }
+            photoCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        photoCheckboxes.forEach(otherCheckbox => {
+                            if (otherCheckbox !== checkbox) {
+                                otherCheckbox.disabled = true;
+                                otherCheckbox.checked = false;
+                            }
+                        });
+                    } else {
+                        photoCheckboxes.forEach(otherCheckbox => {
+                            otherCheckbox.disabled = false;
+                        });
+                    }
+                });
             });
 
             // --- NEW: 3D SHOWCASE FLOOR INPUT LOGIC ---
@@ -891,23 +947,25 @@
             // --- MUTUAL EXCLUSION LOGIC ---
             const standardPhotosCheckbox = pageElement.querySelector(`input[data-product-id="standard_photos"]`);
             const premiumPhotosCheckbox = pageElement.querySelector(`input[data-product-id="premium_photos"]`);
+            const capturePhotosCheckbox = pageElement.querySelector(`input[data-product-id="capture_photos"]`);
 
-            standardPhotosCheckbox.addEventListener('change', () => {
-                if (standardPhotosCheckbox.checked) {
-                    premiumPhotosCheckbox.disabled = true;
-                    premiumPhotosCheckbox.checked = false; // Uncheck it
-                } else {
-                    premiumPhotosCheckbox.disabled = false;
-                }
-            });
+            const photoCheckboxes = [standardPhotosCheckbox, premiumPhotosCheckbox, capturePhotosCheckbox];
 
-            premiumPhotosCheckbox.addEventListener('change', () => {
-                if (premiumPhotosCheckbox.checked) {
-                    standardPhotosCheckbox.disabled = true;
-                    standardPhotosCheckbox.checked = false; // Uncheck it
-                } else {
-                    standardPhotosCheckbox.disabled = false;
-                }
+            photoCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        photoCheckboxes.forEach(otherCheckbox => {
+                            if (otherCheckbox !== checkbox) {
+                                otherCheckbox.disabled = true;
+                                otherCheckbox.checked = false;
+                            }
+                        });
+                    } else {
+                        photoCheckboxes.forEach(otherCheckbox => {
+                            otherCheckbox.disabled = false;
+                        });
+                    }
+                });
             });
 
             // --- 3D SHOWCASE FLOOR INPUT LOGIC ---
@@ -960,17 +1018,27 @@
             // We are IGNORING this for the mock-up, as requested.
             page.photographerId = e.target.value;
             
+            const raulNote = pageElement.querySelector('#raul-note');
+
             if (page.photographerId) {
                 const profile = photographerProfiles[page.photographerId];
                 page.name = profile.name; // NEW: Set the page name
                 disableCalculatorForm(pageElement, false);
                 pageElement.querySelector('#schedule-title').textContent = `Calculated Schedule: ${profile.name}`;
                 pageElement.querySelector('#photographer-category-display').textContent = `Using Category: ${timingCategories[profile.category].name}`;
+
+                if (profile.name === "Raul Caramizaru") {
+                    raulNote.classList.remove('hidden');
+                } else {
+                    raulNote.classList.add('hidden');
+                }
+
             } else {
                 page.name = "Diary Booking"; // NEW: Reset the page name
                 disableCalculatorForm(pageElement, true);
                 pageElement.querySelector('#schedule-title').textContent = `Calculated Schedule`;
                 pageElement.querySelector('#photographer-category-display').textContent = ``;
+                raulNote.classList.add('hidden');
             }
             
             populateMainTabs(); // NEW: Redraw tabs to show the new name
@@ -1006,11 +1074,8 @@
             }
             
             // 1. Get all form values
+            const photographer = photographerProfiles[page.photographerId];
             const bedrooms = parseInt(pageElement.querySelector('#bedrooms').value) || 0;
-            if (bedrooms >= 7) {
-                showModal("Advisory: You have selected a 7+ bedroom property. Please contact the photographer to confirm the estimated duration.");
-            }
-            const travelTime = parseInt(pageElement.querySelector('#travel-time').value) || 0;
             const selectedProducts = [];
             pageElement.querySelectorAll('input[name="product"]:checked').forEach(checkbox => {
                 selectedProducts.push({
@@ -1019,6 +1084,22 @@
                     type: checkbox.dataset.type
                 });
             });
+
+            // Raul's Advisories
+            if (photographer.name === "Raul Caramizaru") {
+                if (bedrooms >= 6) {
+                    showModal("Advisory: For 6+ bedrooms, please check timings with Raul.");
+                }
+                if (selectedProducts.some(p => p.id === 'capture_photos')) {
+                    showModal("Advisory: For Capture orders, please check timings with Raul.");
+                }
+            }
+
+            if (bedrooms >= 7) {
+                showModal("Advisory: You have selected a 7+ bedroom property. Please contact the photographer to confirm the estimated duration.");
+            }
+            const travelTime = parseInt(pageElement.querySelector('#travel-time').value) || 0;
+            
             const orderRef = pageElement.querySelector('#ref-order-id').value;
             const address = pageElement.querySelector('#ref-address').value;
             const postcode = pageElement.querySelector('#ref-postcode').value;
@@ -1302,6 +1383,7 @@
             // Un-disable mutually exclusive checkboxes
             pageElement.querySelector(`input[data-product-id="standard_photos"]`).disabled = false;
             pageElement.querySelector(`input[data-product-id="premium_photos"]`).disabled = false;
+            pageElement.querySelector(`input[data-product-id="capture_photos"]`).disabled = false;
             
             // Hide floor input
             toggleFloorInput(pageElement);
@@ -1335,27 +1417,48 @@
          */
         function calculateDuration(bedrooms, products, ruleset, numFloors) {
             let totalDuration = 0;
-            const floorSurcharge = ruleset.floorSurcharge || 5; // Default to 5 mins if not specified
+            const floorSurcharge = ruleset.floorSurcharge || 5;
+            
+            // Helper to find time for a specific product ID
+            const getTime = (pId) => {
+                if (!ruleset.products.hasOwnProperty(pId)) return 0;
+                const rules = ruleset.products[pId];
+                const rule = rules.sort((a, b) => a.maxBeds - b.maxBeds).find(r => bedrooms <= r.maxBeds);
+                return rule ? rule.time : 0;
+            };
 
+            // Track which products we have processed to avoid double counting
+            const processedIds = new Set();
+            const productIds = products.map(p => p.id);
+
+            // --- COMBINED LOGIC 1: Floorplan + EPC ---
+            if (productIds.includes('floorplan') && productIds.includes('epc')) {
+                const timeFP = getTime('floorplan');
+                const timeEPC = getTime('epc');
+                // Sum and divide by 1.5, round to nearest whole number
+                totalDuration += Math.round((timeFP + timeEPC) / 1.5);
+                processedIds.add('floorplan');
+                processedIds.add('epc');
+            }
+
+            // --- COMBINED LOGIC 2: Drone Photo + Drone Video ---
+            if (productIds.includes('drone_photos') && productIds.includes('drone_video')) {
+                const timeDP = getTime('drone_photos');
+                const timeDV = getTime('drone_video');
+                totalDuration += Math.round((timeDP + timeDV) / 1.5);
+                processedIds.add('drone_photos');
+                processedIds.add('drone_video');
+            }
+
+            // --- PROCESS REMAINING PRODUCTS ---
             products.forEach(product => {
-                const productId = product.id;
-                
-                if (ruleset.products.hasOwnProperty(productId)) {
-                    const rules = ruleset.products[productId];
-                    
-                    const rule = rules.sort((a, b) => a.maxBeds - b.maxBeds)
-                                      .find(r => bedrooms <= r.maxBeds);
-                    
-                    if (rule) {
-                        totalDuration += rule.time;
-                    }
+                if (!processedIds.has(product.id)) {
+                    const time = getTime(product.id);
+                    totalDuration += time;
 
-                    // --- NEW 3D SHOWCASE LOGIC ---
-                    if (productId === 'showcase_3d') {
-                        if (numFloors > 1) {
-                            const surcharge = (numFloors - 1) * floorSurcharge; 
-                            totalDuration += surcharge;
-                        }
+                    // 3D Showcase Surcharge Logic
+                    if (product.id === 'showcase_3d' && numFloors > 1) {
+                        totalDuration += (numFloors - 1) * floorSurcharge;
                     }
                 }
             });
@@ -1445,6 +1548,26 @@
         }
         
         /**
+         * NEW: Shows the tips modal
+         */
+        function showTipsModal() {
+            const modal = document.getElementById('tips-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+            }
+        }
+
+        /**
+         * NEW: Closes the tips modal
+         */
+        function closeTipsModal() {
+            const modal = document.getElementById('tips-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+        }
+
+        /**
          * Shows a custom modal dialog
          */
         function showModal(message, onConfirm) {
@@ -1458,7 +1581,7 @@
             modal.className = 'fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50';
 
             const modalContent = document.createElement('div');
-            modalContent.className = 'relative mx-auto p-6 border w-96 shadow-lg rounded-md bg-white';
+            modalContent.className = 'relative mx-auto p-6 border w-full max-w-2xl shadow-lg rounded-md bg-white';
 
             const text = document.createElement('p');
             text.className = 'text-gray-700 text-sm';
