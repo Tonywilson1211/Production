@@ -202,7 +202,7 @@
                         
                         <div>
                             <label for="calc-bedrooms" class="block text-sm font-medium text-gray-700">Property Size (Bedrooms)</label>
-                            <input type="number" id="calc-bedrooms" min="1" value="3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green" placeholder="e.g., 3">
+                            <input type="number" id="calc-bedrooms" min="1" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom-green focus:border-custom-green" placeholder="Enter number of bedrooms...">
                         </div>
 
                         <div id="calc-floors-wrapper" class="floors-input-wrapper hidden">
@@ -216,9 +216,12 @@
                                 </div>
                         </div>
 
-                        <div class="pt-4">
-                            <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-custom-green hover:bg-custom-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green">
+                        <div class="pt-4 flex space-x-2">
+                            <button type="submit" class="w-2/3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-custom-green hover:bg-custom-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green">
                                 Calculate Duration
+                            </button>
+                            <button type="button" id="reset-calculator-button" class="w-1/3 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom-green">
+                                Reset
                             </button>
                         </div>
                     </form>
@@ -532,10 +535,37 @@
             populateCalcProductsList();
             toggleCalcFloorInput(document.getElementById('page-calculator')); // Initial check
             document.getElementById('calculator-form').addEventListener('submit', handleCalculateDuration);
+            document.getElementById('reset-calculator-button').addEventListener('click', resetCalculator);
 
             // Show the 'Staff Hub' sheet by default
             // addNewDiaryPage switches to the new page, so we switch back.
             switchSheet('page-staff-hub');
+        }
+
+        /**
+         * NEW: Resets the calculator form and results
+         */
+        function resetCalculator() {
+            const pageElement = document.getElementById('page-calculator');
+            
+            // Reset form fields
+            pageElement.querySelector('#context-select').value = '';
+            pageElement.querySelector('#calc-bedrooms').value = '';
+            pageElement.querySelector('#calc-num-floors').value = '1';
+            
+            // Uncheck all products and re-enable them
+            const productCheckboxes = pageElement.querySelectorAll('.calc-product-checkbox');
+            productCheckboxes.forEach(checkbox => {
+                checkbox.checked = false;
+                checkbox.disabled = false;
+            });
+            
+            // Hide floors input
+            toggleCalcFloorInput(pageElement);
+
+            // Hide results and show placeholder
+            pageElement.querySelector('#duration-results-wrapper').classList.add('hidden');
+            pageElement.querySelector('#duration-placeholder').classList.remove('hidden');
         }
 
         /**
@@ -1223,6 +1253,10 @@
             // 1. Get all form inputs
             const contextCatId = pageElement.querySelector('#context-select').value;
             const bedrooms = parseInt(pageElement.querySelector('#calc-bedrooms').value) || 0;
+            if (bedrooms === 0) {
+                showModal("Please enter a valid number of bedrooms.");
+                return;
+            }
             if (bedrooms >= 7) {
                 showModal("Advisory: You have selected a 7+ bedroom property. Please contact the photographer to confirm the estimated duration.");
             }
